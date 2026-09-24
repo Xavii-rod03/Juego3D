@@ -60,13 +60,10 @@ La rama `main` contendrá las versiones integradas del proyecto. Cada integrante
 
 Todos los integrantes participarán en la revisión, pruebas y solución de problemas del proyecto.
 
-## 6. Esquema de nivel
-
-![Diseño del juego](Juego3D/Juego.png)
 
 ## Diseño preliminar del nivel
 
-![Diseño preliminar del laberinto](Juego3D/Juego.png)
+
 
 La imagen muestra el diseño en vista superior de un laberinto o nivel de videojuego, con un estilo visual moderno y texturas que simulan metal y piedra.
 
