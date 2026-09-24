@@ -63,8 +63,7 @@ Todos los integrantes participarán en la revisión, pruebas y solución de prob
 
 ## Diseño preliminar del nivel
 
-
-
+![Diseño preliminar del laberinto](Juego.png)
 La imagen muestra el diseño en vista superior de un laberinto o nivel de videojuego, con un estilo visual moderno y texturas que simulan metal y piedra.
 
 ### Elementos principales
@@ -74,4 +73,3 @@ La imagen muestra el diseño en vista superior de un laberinto o nivel de videoj
 - **Estructura:** Paredes grises con bordes biselados que forman los pasillos y obstáculos del laberinto, creando un efecto tridimensional.
 - **Ruta:** Línea de energía azul luminosa con flechas direccionales que muestra un posible camino desde el punto de inicio hasta la salida.
 
-Actualmente se encuentran definidos el concepto del juego, la mecánica principal, el diseño preliminar del nivel, las responsabilidades del equipo y la organización inicial del repositorio. El desarrollo continuará de forma progresiva, comenzando con el jugador y el laberinto, seguido de los agentes autónomos y las pruebas de rendimiento.
