@@ -13,9 +13,9 @@ El prototipo contará con un nivel principal. En la versión correspondiente del
 
 | Integrante | Responsabilidad principal |
 |---|---|
-| [Nombre 1] | Movimiento del jugador y cámara |
-| [Nombre 2] | Diseño y construcción del nivel |
-| [Nombre 3] | Navegación y agentes autónomos |
+| Daniela Campos Martinez | Movimiento del jugador y cámara |
+| Karina Ivonne Bazan Rojas | Diseño y construcción del nivel |
+| Francisco Javier Garcia Rosados | Navegación y agentes autónomos |
 
 Todos los integrantes participarán en el desarrollo técnico, las pruebas, la integración y la corrección de errores.
 
