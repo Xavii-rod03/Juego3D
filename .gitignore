@@ -1,0 +1,22 @@
+# Godot 4+ specific ignores
+.godot/
+*.translation
+
+# Godot-specific ignores
+*.import
+export.cfg
+export_presets.cfg
+
+# Imported 3D/Texture caches if any
+.import/
+
+# Mono/C# ignores
+.mono/
+data_*/
+mono_crash.*.json
+
+# OS and Editor ignores
+.DS_Store
+Thumbs.db
+*.tmp
+*.log

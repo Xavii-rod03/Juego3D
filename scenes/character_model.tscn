@@ -1,0 +1,178 @@
+[gd_scene load_steps=18 format=3 uid="uid://b7vyy43f8j91m"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_SuitWhite"]
+albedo_color = Color(0.92, 0.94, 0.96, 1)
+roughness = 0.35
+rim_enabled = true
+rim = 0.4
+rim_tint = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_SuitDark"]
+albedo_color = Color(0.16, 0.18, 0.22, 1)
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_AccentBlue"]
+albedo_color = Color(0.18, 0.45, 0.88, 1)
+roughness = 0.3
+metallic = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_Visor"]
+albedo_color = Color(0.04, 0.1, 0.15, 1)
+metallic = 0.6
+roughness = 0.05
+clearcoat_enabled = true
+clearcoat = 1.0
+emission_enabled = true
+emission = Color(0.0, 0.85, 0.95, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_GlowThruster"]
+albedo_color = Color(0.0, 0.9, 1.0, 1)
+emission_enabled = true
+emission = Color(0.0, 0.9, 1.0, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="SphereMesh" id="Mesh_Helmet"]
+material = SubResource("Mat_SuitWhite")
+radius = 0.26
+height = 0.52
+
+[sub_resource type="BoxMesh" id="Mesh_Visor"]
+material = SubResource("Mat_Visor")
+size = Vector3(0.36, 0.16, 0.18)
+
+[sub_resource type="BoxMesh" id="Mesh_Torso"]
+material = SubResource("Mat_SuitWhite")
+size = Vector3(0.46, 0.5, 0.28)
+
+[sub_resource type="BoxMesh" id="Mesh_ChestPlate"]
+material = SubResource("Mat_AccentBlue")
+size = Vector3(0.38, 0.32, 0.08)
+
+[sub_resource type="BoxMesh" id="Mesh_Belt"]
+material = SubResource("Mat_SuitDark")
+size = Vector3(0.44, 0.1, 0.26)
+
+[sub_resource type="BoxMesh" id="Mesh_Backpack"]
+material = SubResource("Mat_SuitDark")
+size = Vector3(0.34, 0.42, 0.18)
+
+[sub_resource type="CylinderMesh" id="Mesh_Thruster"]
+material = SubResource("Mat_SuitDark")
+top_radius = 0.07
+bottom_radius = 0.09
+height = 0.32
+
+[sub_resource type="TorusMesh" id="Mesh_ThrusterGlow"]
+material = SubResource("Mat_GlowThruster")
+inner_radius = 0.04
+outer_radius = 0.08
+
+[sub_resource type="SphereMesh" id="Mesh_Shoulder"]
+material = SubResource("Mat_AccentBlue")
+radius = 0.11
+height = 0.22
+
+[sub_resource type="CapsuleMesh" id="Mesh_Arm"]
+material = SubResource("Mat_SuitWhite")
+radius = 0.08
+height = 0.4
+
+[sub_resource type="CapsuleMesh" id="Mesh_Leg"]
+material = SubResource("Mat_SuitDark")
+radius = 0.095
+height = 0.5
+
+[sub_resource type="BoxMesh" id="Mesh_Boot"]
+material = SubResource("Mat_AccentBlue")
+size = Vector3(0.18, 0.18, 0.28)
+
+[node name="CharacterModel" type="Node3D"]
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48, 0)
+
+[node name="Helmet" type="MeshInstance3D" parent="Head"]
+mesh = SubResource("Mesh_Helmet")
+
+[node name="Visor" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0.17)
+mesh = SubResource("Mesh_Visor")
+
+[node name="Torso" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+
+[node name="MainBody" type="MeshInstance3D" parent="Torso"]
+mesh = SubResource("Mesh_Torso")
+
+[node name="ChestPlate" type="MeshInstance3D" parent="Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0.12)
+mesh = SubResource("Mesh_ChestPlate")
+
+[node name="Belt" type="MeshInstance3D" parent="Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.26, 0)
+mesh = SubResource("Mesh_Belt")
+
+[node name="Backpack" type="Node3D" parent="Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -0.18)
+
+[node name="PackBody" type="MeshInstance3D" parent="Torso/Backpack"]
+mesh = SubResource("Mesh_Backpack")
+
+[node name="Thruster_L" type="MeshInstance3D" parent="Torso/Backpack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, -0.1, -0.05)
+mesh = SubResource("Mesh_Thruster")
+
+[node name="Glow_L" type="MeshInstance3D" parent="Torso/Backpack/Thruster_L"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.16, 0)
+mesh = SubResource("Mesh_ThrusterGlow")
+
+[node name="Thruster_R" type="MeshInstance3D" parent="Torso/Backpack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, -0.1, -0.05)
+mesh = SubResource("Mesh_Thruster")
+
+[node name="Glow_R" type="MeshInstance3D" parent="Torso/Backpack/Thruster_R"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.16, 0)
+mesh = SubResource("Mesh_ThrusterGlow")
+
+[node name="Arm_L" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 1.22, 0)
+
+[node name="Shoulder" type="MeshInstance3D" parent="Arm_L"]
+mesh = SubResource("Mesh_Shoulder")
+
+[node name="Limb" type="MeshInstance3D" parent="Arm_L"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, -0.22, 0)
+mesh = SubResource("Mesh_Arm")
+
+[node name="Arm_R" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 1.22, 0)
+
+[node name="Shoulder" type="MeshInstance3D" parent="Arm_R"]
+mesh = SubResource("Mesh_Shoulder")
+
+[node name="Limb" type="MeshInstance3D" parent="Arm_R"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04, -0.22, 0)
+mesh = SubResource("Mesh_Arm")
+
+[node name="Leg_L" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.72, 0)
+
+[node name="Limb" type="MeshInstance3D" parent="Leg_L"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
+mesh = SubResource("Mesh_Leg")
+
+[node name="Boot" type="MeshInstance3D" parent="Leg_L"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.62, 0.05)
+mesh = SubResource("Mesh_Boot")
+
+[node name="Leg_R" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.72, 0)
+
+[node name="Limb" type="MeshInstance3D" parent="Leg_R"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
+mesh = SubResource("Mesh_Leg")
+
+[node name="Boot" type="MeshInstance3D" parent="Leg_R"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.62, 0.05)
+mesh = SubResource("Mesh_Boot")
