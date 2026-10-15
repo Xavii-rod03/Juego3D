@@ -1,0 +1,189 @@
+[gd_scene load_steps=7 format=3 uid="uid://b2k8x4m1n9q7w"]
+
+[ext_resource type="Script" path="res://scripts/benchmark/benchmark_runner.gd" id="1_runner"]
+[ext_resource type="Script" path="res://scripts/benchmark/benchmark_ui.gd" id="2_ui"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bench"]
+sky_top_color = Color(0.18, 0.28, 0.45, 1)
+sky_horizon_color = Color(0.55, 0.65, 0.75, 1)
+ground_bottom_color = Color(0.1, 0.12, 0.15, 1)
+
+[sub_resource type="Sky" id="Sky_bench"]
+sky_material = SubResource("ProceduralSkyMaterial_bench")
+
+[sub_resource type="Environment" id="Environment_bench"]
+background_mode = 2
+sky = SubResource("Sky_bench")
+tonemap_mode = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.08, 0.1, 0.14, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.85, 0.95, 0.5)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="BenchmarkMain" type="Node3D"]
+script = ExtResource("1_runner")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bench")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 30, 0)
+shadow_enabled = false
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.927184, 0.374607, 0, -0.374607, 0.927184, 0, 18, 38)
+fov = 65.0
+
+[node name="BenchmarkContainer" type="Node3D" parent="."]
+
+[node name="BenchmarkUI" type="CanvasLayer" parent="."]
+script = ExtResource("2_ui")
+
+[node name="MarginContainer" type="MarginContainer" parent="BenchmarkUI"]
+offset_right = 380.0
+offset_bottom = 280.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="Panel" type="PanelContainer" parent="BenchmarkUI/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="BenchmarkUI/MarginContainer/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Margin" type="MarginContainer" parent="BenchmarkUI/MarginContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="Content" type="VBoxContainer" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "BENCHMARK 1 000 ENTIDADES (TAREA 2)"
+
+[node name="HSeparator" type="HSeparator" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+layout_mode = 2
+
+[node name="PhaseLabel" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "ESTADO: LISTO (Presiona ESPACIO)"
+
+[node name="RunLabel" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Protocolo: 6 corridas (3 OO / 3 DOD)"
+
+[node name="TimerLabel" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "Calentamiento 5s | Medición 30s"
+
+[node name="HSeparator2" type="HSeparator" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+layout_mode = 2
+
+[node name="HBox1" type="HBoxContainer" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+layout_mode = 2
+
+[node name="L1" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content/HBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Bloque Instrumentado:"
+
+[node name="BlockTimeLabel" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content/HBox1"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0.000 ms"
+
+[node name="HBox2" type="HBoxContainer" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+layout_mode = 2
+
+[node name="L2" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content/HBox2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CPU Process (Profiler):"
+
+[node name="CpuTimeLabel" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content/HBox2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0.000 ms"
+
+[node name="HBox3" type="HBoxContainer" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+layout_mode = 2
+
+[node name="L3" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content/HBox3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Frame Time total:"
+
+[node name="FrameTimeLabel" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content/HBox3"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "16.6 ms"
+
+[node name="HBox4" type="HBoxContainer" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+layout_mode = 2
+
+[node name="L4" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content/HBox4"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Tasa de Rendimiento:"
+
+[node name="FpsLabel" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content/HBox4"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 0.4, 1)
+text = "60 FPS"
+
+[node name="Hint" type="Label" parent="BenchmarkUI/MarginContainer/Panel/VBox/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+theme_override_font_sizes/font_size = 11
+text = "[ESPACIO] Iniciar protocolo | [ESC] Volver al nivel"
+
+[node name="CenterContainer" type="CenterContainer" parent="BenchmarkUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SummaryBox" type="PanelContainer" parent="BenchmarkUI/CenterContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(580, 360)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="BenchmarkUI/CenterContainer/SummaryBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="SummaryTextLabel" type="RichTextLabel" parent="BenchmarkUI/CenterContainer/SummaryBox/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+text = "Resumen de Resultados"

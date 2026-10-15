@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" style="background-color:#1e222b; font-family:sans-serif;">
+<text x="450.0" y="32" text-anchor="middle" fill="#00e5ff" font-size="18" font-weight="bold">Distribución Comparativa de Tiempos (Mediana, IQR y Rango)</text>
+<text transform="rotate(-90)" x="-240.0" y="30" text-anchor="middle" fill="#a0aec0" font-size="13">Tiempo en milisegundos (ms)</text>
+<rect x="80" y="60" width="780" height="360" fill="#161920" stroke="#334155" stroke-width="1.5"/>
+<line x1="80" y1="384.0" x2="860" y2="384.0" stroke="#2a324b" stroke-dasharray="4,4"/>
+<text x="70" y="388.0" text-anchor="end" fill="#94a3b8" font-size="11">2.0 ms</text>
+<line x1="80" y1="348.0" x2="860" y2="348.0" stroke="#2a324b" stroke-dasharray="4,4"/>
+<text x="70" y="352.0" text-anchor="end" fill="#94a3b8" font-size="11">4.0 ms</text>
+<line x1="80" y1="312.0" x2="860" y2="312.0" stroke="#2a324b" stroke-dasharray="4,4"/>
+<text x="70" y="316.0" text-anchor="end" fill="#94a3b8" font-size="11">6.0 ms</text>
+<line x1="80" y1="276.0" x2="860" y2="276.0" stroke="#2a324b" stroke-dasharray="4,4"/>
+<text x="70" y="280.0" text-anchor="end" fill="#94a3b8" font-size="11">8.0 ms</text>
+<line x1="80" y1="240.0" x2="860" y2="240.0" stroke="#2a324b" stroke-dasharray="4,4"/>
+<text x="70" y="244.0" text-anchor="end" fill="#94a3b8" font-size="11">10.0 ms</text>
+<line x1="80" y1="204.0" x2="860" y2="204.0" stroke="#2a324b" stroke-dasharray="4,4"/>
+<text x="70" y="208.0" text-anchor="end" fill="#94a3b8" font-size="11">12.0 ms</text>
+<line x1="80" y1="168.00000000000003" x2="860" y2="168.00000000000003" stroke="#2a324b" stroke-dasharray="4,4"/>
+<text x="70" y="172.00000000000003" text-anchor="end" fill="#94a3b8" font-size="11">14.0 ms</text>
+<line x1="80" y1="132.0" x2="860" y2="132.0" stroke="#2a324b" stroke-dasharray="4,4"/>
+<text x="70" y="136.0" text-anchor="end" fill="#94a3b8" font-size="11">16.0 ms</text>
+<line x1="80" y1="96.0" x2="860" y2="96.0" stroke="#2a324b" stroke-dasharray="4,4"/>
+<text x="70" y="100.0" text-anchor="end" fill="#94a3b8" font-size="11">18.0 ms</text>
+<line x1="80" y1="60.0" x2="860" y2="60.0" stroke="#2a324b" stroke-dasharray="4,4"/>
+<text x="70" y="64.0" text-anchor="end" fill="#94a3b8" font-size="11">20.0 ms</text>
+<line x1="145.0" y1="396.84839999999997" x2="145.0" y2="375.738" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="133.0" y1="396.84839999999997" x2="157.0" y2="396.84839999999997" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="133.0" y1="375.738" x2="157.0" y2="375.738" stroke="#94a3b8" stroke-width="1.5"/>
+<rect x="109.25" y="384.9522" width="71.5" height="3.9384000000000015" fill="#f87171" opacity="0.8" stroke="#ffffff" stroke-width="1.2" rx="3"/>
+<line x1="109.25" y1="386.9457" x2="180.75" y2="386.9457" stroke="#ffffff" stroke-width="2.5"/>
+<text x="145.0" y="440" text-anchor="middle" fill="#cbd5e1" font-size="11">Bloque OO</text>
+<text x="145.0" y="456" text-anchor="middle" fill="#f87171" font-size="10" font-weight="bold">1.84 ms</text>
+<line x1="275.0" y1="415.3146" x2="275.0" y2="409.8372" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="263.0" y1="415.3146" x2="287.0" y2="415.3146" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="263.0" y1="409.8372" x2="287.0" y2="409.8372" stroke="#94a3b8" stroke-width="1.5"/>
+<rect x="239.25" y="411.9828" width="71.5" height="1.0224000000000046" fill="#38bdf8" opacity="0.8" stroke="#ffffff" stroke-width="1.2" rx="3"/>
+<line x1="239.25" y1="412.4994" x2="310.75" y2="412.4994" stroke="#ffffff" stroke-width="2.5"/>
+<text x="275.0" y="440" text-anchor="middle" fill="#cbd5e1" font-size="11">Bloque DOD</text>
+<text x="275.0" y="456" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="bold">0.42 ms</text>
+<line x1="405.0" y1="386.51279999999997" x2="405.0" y2="365.5608" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="393.0" y1="386.51279999999997" x2="417.0" y2="386.51279999999997" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="393.0" y1="365.5608" x2="417.0" y2="365.5608" stroke="#94a3b8" stroke-width="1.5"/>
+<rect x="369.25" y="374.3916" width="71.5" height="4.186800000000005" fill="#fca5a5" opacity="0.8" stroke="#ffffff" stroke-width="1.2" rx="3"/>
+<line x1="369.25" y1="376.49760000000003" x2="440.75" y2="376.49760000000003" stroke="#ffffff" stroke-width="2.5"/>
+<text x="405.0" y="440" text-anchor="middle" fill="#cbd5e1" font-size="11">CPU OO</text>
+<text x="405.0" y="456" text-anchor="middle" fill="#fca5a5" font-size="10" font-weight="bold">2.42 ms</text>
+<line x1="535.0" y1="406.9014" x2="535.0" y2="399.0228" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="523.0" y1="406.9014" x2="547.0" y2="406.9014" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="523.0" y1="399.0228" x2="547.0" y2="399.0228" stroke="#94a3b8" stroke-width="1.5"/>
+<rect x="499.25" y="402.45" width="71.5" height="1.3932000000000357" fill="#7dd3fc" opacity="0.8" stroke="#ffffff" stroke-width="1.2" rx="3"/>
+<line x1="499.25" y1="403.1466" x2="570.75" y2="403.1466" stroke="#ffffff" stroke-width="2.5"/>
+<text x="535.0" y="440" text-anchor="middle" fill="#cbd5e1" font-size="11">CPU DOD</text>
+<text x="535.0" y="456" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="bold">0.94 ms</text>
+<line x1="665.0" y1="145.09500000000003" x2="665.0" y2="96.7722" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="653.0" y1="145.09500000000003" x2="677.0" y2="145.09500000000003" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="653.0" y1="96.7722" x2="677.0" y2="96.7722" stroke="#94a3b8" stroke-width="1.5"/>
+<rect x="629.25" y="112.83539999999999" width="71.5" height="14.4846" fill="#fb923c" opacity="0.8" stroke="#ffffff" stroke-width="1.2" rx="3"/>
+<line x1="629.25" y1="120.06599999999997" x2="700.75" y2="120.06599999999997" stroke="#ffffff" stroke-width="2.5"/>
+<text x="665.0" y="440" text-anchor="middle" fill="#cbd5e1" font-size="11">Frame OO</text>
+<text x="665.0" y="456" text-anchor="middle" fill="#fb923c" font-size="10" font-weight="bold">16.66 ms</text>
+<line x1="795.0" y1="141.26099999999997" x2="795.0" y2="98.1078" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="783.0" y1="141.26099999999997" x2="807.0" y2="141.26099999999997" stroke="#94a3b8" stroke-width="1.5"/>
+<line x1="783.0" y1="98.1078" x2="807.0" y2="98.1078" stroke="#94a3b8" stroke-width="1.5"/>
+<rect x="759.25" y="112.53119999999996" width="71.5" height="14.508000000000038" fill="#34d399" opacity="0.8" stroke="#ffffff" stroke-width="1.2" rx="3"/>
+<line x1="759.25" y1="119.67899999999997" x2="830.75" y2="119.67899999999997" stroke="#ffffff" stroke-width="2.5"/>
+<text x="795.0" y="440" text-anchor="middle" fill="#cbd5e1" font-size="11">Frame DOD</text>
+<text x="795.0" y="456" text-anchor="middle" fill="#34d399" font-size="10" font-weight="bold">16.68 ms</text>
+</svg>

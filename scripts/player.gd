@@ -29,6 +29,7 @@ signal state_changed(old_state_name: String, new_state_name: String)
 @onready var spring_arm: SpringArm3D = $CameraPivot/SpringArm3D
 @onready var camera: Camera3D = $CameraPivot/SpringArm3D/Camera3D
 @onready var visual_wrapper: Node3D = $VisualWrapper
+@onready var anim_player: AnimationPlayer = $VisualWrapper/CharacterModel/AnimationPlayer
 
 # --- Gravedad del motor ---
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity", 9.8)
@@ -51,8 +52,9 @@ func _ready() -> void:
 	if visual_wrapper:
 		target_rotation_y = visual_wrapper.rotation.y
 		
-	# Emitir estado inicial
+	# Emitir estado inicial y reproducir animación Idle
 	emit_signal("state_changed", "", State.keys()[current_state])
+	_play_state_animation(State.IDLE)
 	print("[FSM] Estado inicial: %s" % State.keys()[current_state])
 
 
@@ -69,38 +71,35 @@ func _unhandled_input(event: InputEvent) -> void:
 		# Rotación horizontal (Yaw) en el pivote
 		camera_pivot.rotate_y(-event.relative.x * mouse_sensitivity)
 		
-		# Rotación vertical (Pitch) en el pivote, restringida para no dar la vuelta completa
+		# Rotación vertical (Pitch) en el pivote, restringida
 		var pitch_change = -event.relative.y * mouse_sensitivity
 		var current_pitch = camera_pivot.rotation_degrees.x
 		var new_pitch = clamp(current_pitch + rad_to_deg(pitch_change), min_pitch, max_pitch)
 		camera_pivot.rotation_degrees.x = new_pitch
+		
+	# Acceso directo al Benchmark de Tarea 2 con tecla B o F2
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_B or event.keycode == KEY_F2:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			get_tree().change_scene_to_file("res://scenes/benchmark/benchmark_main.tscn")
 
 
 ## =============================================================================
 ## PASO 1: FÍSICA (_physics_process)
 ## -----------------------------------------------------------------------------
-## EXPLICACIÓN DE USO DE 'DELTA':
-## 1. Gravedad: La aceleración de la gravedad se aplica multiplicando por delta
-##    (velocity.y -= gravity * delta) porque la aceleración es m/s^2 y queremos
-##    el cambio de velocidad en este fotograma (m/s).
-## 2. Aceleración / Fricción: Interpolamos la velocidad horizontal usando lerp
-##    con un factor ponderado por delta (acceleration * delta) para que la respuesta
-##    sea independiente de la tasa de fotogramas físicos.
-## 3. Desplazamiento final: move_and_slide() en Godot 4 utiliza INTERNAMENTE
-##    el delta de física para calcular el desplazamiento (position += velocity * delta).
-##    ¡POR ESO NO SE DEBE MULTIPLICAR LA VELOCIDAD POR DELTA AL LLAMAR A move_and_slide()!
-##    Hacerlo aplicaría el tiempo dos veces a la misma magnitud, reduciendo drásticamente
-##    el movimiento según el framerate.
+## EXPLICACIÓN DE USO DE 'DELTA' Y PREVENCIÓN DEL DOBLE TIEMPO:
+## 1. Gravedad: velocity.y -= gravity * delta (aceleración m/s^2 a velocidad m/s).
+## 2. Inercia / Fricción: move_toward() escalado con delta para consistencia de framerate.
+## 3. move_and_slide(): En Godot 4.x toma directamente velocity e integra internamente
+##    el delta de física (dx = v * dt). ¡NO se debe multiplicar velocity por delta
+##    al llamar a move_and_slide()! Hacerlo aplicaría el tiempo dos veces.
 ## =============================================================================
 func _physics_process(delta: float) -> void:
-	# 1. Obtener entradas de movimiento
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	
-	# 2. Calcular dirección relativa a la orientación horizontal de la cámara
 	var cam_transform = camera_pivot.global_transform
 	var forward = -cam_transform.basis.z
 	var right = cam_transform.basis.x
-	# Proyectar en el plano horizontal XZ
 	forward.y = 0.0
 	right.y = 0.0
 	forward = forward.normalized()
@@ -108,16 +107,15 @@ func _physics_process(delta: float) -> void:
 	
 	move_direction = (right * input_dir.x + forward * -input_dir.y).normalized()
 	
-	# 3. Aplicar gravedad
+	# Gravedad
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	else:
-		# Salto: Solo permitido cuando está sobre el suelo
 		if Input.is_action_just_pressed("jump"):
 			velocity.y = jump_velocity
 			_transition_to(State.JUMP)
 	
-	# 4. Aceleración horizontal e inercia / fricción
+	# Aceleración horizontal e inercia / fricción
 	var target_vel_x = move_direction.x * speed
 	var target_vel_z = move_direction.z * speed
 	
@@ -125,24 +123,23 @@ func _physics_process(delta: float) -> void:
 	velocity.x = move_toward(velocity.x, target_vel_x, accel_factor * speed * delta)
 	velocity.z = move_toward(velocity.z, target_vel_z, accel_factor * speed * delta)
 	
-	# 5. Ejecutar físicas y colisiones
+	# Ejecutar físicas y colisiones
 	move_and_slide()
 	
-	# 6. Actualización y transiciones de la FSM
+	# Actualización y transiciones de la FSM
 	_update_fsm_state()
 
 
 ## =============================================================================
 ## PASO 2: ACTUALIZACIÓN VISUAL (_process)
 ## -----------------------------------------------------------------------------
-## Separada del paso de física. Aquí se interpola suavemente la orientación visual
-## del personaje hacia la dirección de movimiento para evitar vibraciones (jittering).
+## La orientación del modelo se interpola suavemente con lerp_angle() en _process.
+## La locomoción es in-place: el CharacterBody3D gestiona el desplazamiento
+## en el mundo físico, mientras la animación se reproduce en su origen local.
 ## =============================================================================
 func _process(delta: float) -> void:
 	if visual_wrapper and move_direction.length_squared() > 0.01:
-		# Calcular ángulo hacia donde mira el movimiento en radianes
 		target_rotation_y = atan2(move_direction.x, move_direction.z)
-		# Rotación interpolada suave usando lerp_angle
 		visual_wrapper.rotation.y = lerp_angle(
 			visual_wrapper.rotation.y,
 			target_rotation_y,
@@ -151,9 +148,7 @@ func _process(delta: float) -> void:
 
 
 ## =============================================================================
-## MÁQUINA DE ESTADOS FINITOS (FSM)
-## -----------------------------------------------------------------------------
-## Controla estados Idle, Walk y Jump con transiciones explícitas y registros legibles.
+## MÁQUINA DE ESTADOS FINITOS (FSM) Y ANIMACIÓN IN-PLACE
 ## =============================================================================
 func _update_fsm_state() -> void:
 	var horizontal_speed = Vector2(velocity.x, velocity.z).length()
@@ -188,20 +183,33 @@ func _transition_to(new_state: State) -> void:
 	
 	current_state = new_state
 	
-	# Registro legible en consola (cumple requerimiento 4)
+	# Reproducir animación sincronizada con la FSM
+	_play_state_animation(new_state)
+	
+	# Registro legible en consola
 	print("[FSM] Transición explícita: %s -> %s (Sobre suelo: %s, VelY: %.2f)" % [
 		old_state_name, new_state_name, is_on_floor(), velocity.y
 	])
 	
-	# Notificar a la interfaz HUD
 	emit_signal("state_changed", old_state_name, new_state_name)
+
+
+func _play_state_animation(state: State) -> void:
+	if not is_instance_valid(anim_player):
+		return
+	match state:
+		State.IDLE:
+			anim_player.play("idle", 0.2)
+		State.WALK:
+			anim_player.play("walk", 0.15)
+		State.JUMP:
+			anim_player.play("jump", 0.1)
 
 
 func get_current_state_name() -> String:
 	return State.keys()[current_state]
 
 
-## Configuración de respaldo por si el proyecto no tiene las acciones definidas en InputMap
 func _setup_fallback_inputs() -> void:
 	var defaults = {
 		"move_forward": [KEY_W, KEY_UP],
