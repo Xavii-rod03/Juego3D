@@ -1,8 +1,12 @@
-[gd_scene load_steps=22 format=3 uid="uid://c3x7m2k9a1b0y"]
+[gd_scene load_steps=29 format=3 uid="uid://c3x7m2k9a1b0y"]
 
+[ext_resource type="Script" path="res://scripts/level_controller.gd" id="1_controller"]
 [ext_resource type="Shader" path="res://shaders/grid_floor.gdshader" id="1_grid_shader"]
 [ext_resource type="PackedScene" uid="uid://c7k2p8b1a5xqw" path="res://scenes/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://c5f4v8k2m9y7a" path="res://scenes/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" uid="uid://c8m3v9x2k1b7p" path="res://scenes/interactables/key_item.tscn" id="4_key"]
+[ext_resource type="PackedScene" uid="uid://df2k8v4m9b7w1" path="res://scenes/interactables/door_gate.tscn" id="5_door"]
+[ext_resource type="PackedScene" uid="uid://b6k4v9x1n3q7m" path="res://scenes/interactables/goal_zone.tscn" id="6_goal"]
 
 [sub_resource type="ProceduralSkyMaterial" id="SkyMat_rich"]
 sky_top_color = Color(0.28, 0.52, 0.92, 1)
@@ -63,11 +67,27 @@ emission_enabled = true
 emission = Color(0, 0.88, 1, 1)
 emission_energy_multiplier = 2.0
 
-[sub_resource type="StandardMaterial3D" id="Mat_NeonAmber"]
-albedo_color = Color(1, 0.65, 0.15, 1)
+[sub_resource type="StandardMaterial3D" id="Mat_StartPad"]
+albedo_color = Color(0.15, 0.18, 0.22, 1)
+metallic = 0.5
+roughness = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_start"]
+material = SubResource("Mat_StartPad")
+top_radius = 2.5
+bottom_radius = 2.7
+height = 0.15
+
+[sub_resource type="StandardMaterial3D" id="Mat_StartRing"]
+albedo_color = Color(0.2, 0.9, 0.4, 1)
 emission_enabled = true
-emission = Color(1, 0.65, 0.15, 1)
+emission = Color(0.2, 0.9, 0.4, 1)
 emission_energy_multiplier = 2.0
+
+[sub_resource type="TorusMesh" id="TorusMesh_startring"]
+material = SubResource("Mat_StartRing")
+inner_radius = 2.1
+outer_radius = 2.4
 
 [sub_resource type="BoxMesh" id="Mesh_Wall_14m"]
 material = SubResource("Mat_WallBody")
@@ -84,29 +104,19 @@ size = Vector3(14.06, 0.08, 1.06)
 [sub_resource type="BoxShape3D" id="Shape_Wall_14m"]
 size = Vector3(14, 4, 1)
 
-[sub_resource type="BoxMesh" id="Mesh_PlatBase"]
+[sub_resource type="BoxMesh" id="Mesh_Wall_8m"]
+material = SubResource("Mat_WallBody")
+size = Vector3(8, 3.6, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_Trim_8m"]
 material = SubResource("Mat_WallTrim")
-size = Vector3(4.2, 1.1, 4.2)
+size = Vector3(8.05, 0.4, 1.05)
 
-[sub_resource type="BoxMesh" id="Mesh_PlatTop"]
-material = SubResource("Mat_NeonAmber")
-size = Vector3(3.9, 0.15, 3.9)
-
-[sub_resource type="BoxShape3D" id="Shape_Platform"]
-size = Vector3(4.2, 1.2, 4.2)
-
-[sub_resource type="CylinderMesh" id="Mesh_Beacon"]
-material = SubResource("Mat_WallTrim")
-top_radius = 0.18
-bottom_radius = 0.24
-height = 2.2
-
-[sub_resource type="SphereMesh" id="Mesh_BeaconBulb"]
-material = SubResource("Mat_NeonCyan")
-radius = 0.2
-height = 0.4
+[sub_resource type="BoxShape3D" id="Shape_Wall_8m"]
+size = Vector3(8, 4, 1)
 
 [node name="Level" type="Node3D"]
+script = ExtResource("1_controller")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Env_modern")
@@ -130,134 +140,154 @@ mesh = SubResource("Mesh_floor")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("Shape_floor")
 
-[node name="Obstacles" type="Node3D" parent="."]
+[node name="StartPad" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -18)
 
-[node name="Wall_North" type="StaticBody3D" parent="Obstacles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -10)
+[node name="Mesh" type="MeshInstance3D" parent="StartPad"]
+mesh = SubResource("CylinderMesh_start")
 
-[node name="BodyMesh" type="MeshInstance3D" parent="Obstacles/Wall_North"]
-mesh = SubResource("Mesh_Wall_14m")
+[node name="Ring" type="MeshInstance3D" parent="StartPad"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("TorusMesh_startring")
 
-[node name="BottomTrim" type="MeshInstance3D" parent="Obstacles/Wall_North"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, 0)
-mesh = SubResource("Mesh_Trim_14m")
-
-[node name="TopTrim" type="MeshInstance3D" parent="Obstacles/Wall_North"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
-mesh = SubResource("Mesh_Trim_14m")
-
-[node name="NeonStripe" type="MeshInstance3D" parent="Obstacles/Wall_North"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
-mesh = SubResource("Mesh_Stripe_14m")
-
-[node name="Collision" type="CollisionShape3D" parent="Obstacles/Wall_North"]
-shape = SubResource("Shape_Wall_14m")
-
-[node name="Wall_East" type="StaticBody3D" parent="Obstacles"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.5, 2, -3.5)
-
-[node name="BodyMesh" type="MeshInstance3D" parent="Obstacles/Wall_East"]
-mesh = SubResource("Mesh_Wall_14m")
-
-[node name="BottomTrim" type="MeshInstance3D" parent="Obstacles/Wall_East"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, 0)
-mesh = SubResource("Mesh_Trim_14m")
-
-[node name="TopTrim" type="MeshInstance3D" parent="Obstacles/Wall_East"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
-mesh = SubResource("Mesh_Trim_14m")
-
-[node name="NeonStripe" type="MeshInstance3D" parent="Obstacles/Wall_East"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
-mesh = SubResource("Mesh_Stripe_14m")
-
-[node name="Collision" type="CollisionShape3D" parent="Obstacles/Wall_East"]
-shape = SubResource("Shape_Wall_14m")
-
-[node name="Wall_Corner" type="StaticBody3D" parent="Obstacles"]
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -7, 2, 5)
-
-[node name="BodyMesh" type="MeshInstance3D" parent="Obstacles/Wall_Corner"]
-mesh = SubResource("Mesh_Wall_14m")
-
-[node name="BottomTrim" type="MeshInstance3D" parent="Obstacles/Wall_Corner"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, 0)
-mesh = SubResource("Mesh_Trim_14m")
-
-[node name="TopTrim" type="MeshInstance3D" parent="Obstacles/Wall_Corner"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
-mesh = SubResource("Mesh_Trim_14m")
-
-[node name="NeonStripe" type="MeshInstance3D" parent="Obstacles/Wall_Corner"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
-mesh = SubResource("Mesh_Stripe_14m")
-
-[node name="Collision" type="CollisionShape3D" parent="Obstacles/Wall_Corner"]
-shape = SubResource("Shape_Wall_14m")
-
-[node name="Platform_Low" type="StaticBody3D" parent="Obstacles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.6, -4)
-
-[node name="BaseMesh" type="MeshInstance3D" parent="Obstacles/Platform_Low"]
-mesh = SubResource("Mesh_PlatBase")
-
-[node name="TopPad" type="MeshInstance3D" parent="Obstacles/Platform_Low"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
-mesh = SubResource("Mesh_PlatTop")
-
-[node name="Collision" type="CollisionShape3D" parent="Obstacles/Platform_Low"]
-shape = SubResource("Shape_Platform")
-
-[node name="Platform_High" type="StaticBody3D" parent="Obstacles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.8, -9)
-
-[node name="BaseMesh" type="MeshInstance3D" parent="Obstacles/Platform_High"]
-mesh = SubResource("Mesh_PlatBase")
-
-[node name="TopPad" type="MeshInstance3D" parent="Obstacles/Platform_High"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
-mesh = SubResource("Mesh_PlatTop")
-
-[node name="Collision" type="CollisionShape3D" parent="Obstacles/Platform_High"]
-shape = SubResource("Shape_Platform")
-
-[node name="LightingProps" type="Node3D" parent="."]
-
-[node name="Beacon_1" type="Node3D" parent="LightingProps"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 4)
-
-[node name="Pillar" type="MeshInstance3D" parent="LightingProps/Beacon_1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
-mesh = SubResource("Mesh_Beacon")
-
-[node name="Bulb" type="MeshInstance3D" parent="LightingProps/Beacon_1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
-mesh = SubResource("Mesh_BeaconBulb")
-
-[node name="Light" type="OmniLight3D" parent="LightingProps/Beacon_1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
-light_color = Color(0, 0.88, 1, 1)
+[node name="StartLight" type="OmniLight3D" parent="StartPad"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+light_color = Color(0.2, 0.9, 0.4, 1)
 light_energy = 2.0
-omni_range = 8.0
+omni_range = 5.0
 
-[node name="Beacon_2" type="Node3D" parent="LightingProps"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -4)
+[node name="MazeWalls" type="Node3D" parent="."]
 
-[node name="Pillar" type="MeshInstance3D" parent="LightingProps/Beacon_2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
-mesh = SubResource("Mesh_Beacon")
+[node name="Perimeter_North" type="StaticBody3D" parent="MazeWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -26)
 
-[node name="Bulb" type="MeshInstance3D" parent="LightingProps/Beacon_2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
-mesh = SubResource("Mesh_BeaconBulb")
+[node name="Body" type="MeshInstance3D" parent="MazeWalls/Perimeter_North"]
+transform = Transform3D(3.8, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("Mesh_Wall_14m")
 
-[node name="Light" type="OmniLight3D" parent="LightingProps/Beacon_2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
-light_color = Color(0, 0.88, 1, 1)
-light_energy = 2.0
-omni_range = 8.0
+[node name="Col" type="CollisionShape3D" parent="MazeWalls/Perimeter_North"]
+transform = Transform3D(3.8, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("Shape_Wall_14m")
+
+[node name="Perimeter_South" type="StaticBody3D" parent="MazeWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 26)
+
+[node name="Body" type="MeshInstance3D" parent="MazeWalls/Perimeter_South"]
+transform = Transform3D(3.8, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("Mesh_Wall_14m")
+
+[node name="Col" type="CollisionShape3D" parent="MazeWalls/Perimeter_South"]
+transform = Transform3D(3.8, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("Shape_Wall_14m")
+
+[node name="Perimeter_West" type="StaticBody3D" parent="MazeWalls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -26, 2, 0)
+
+[node name="Body" type="MeshInstance3D" parent="MazeWalls/Perimeter_West"]
+transform = Transform3D(3.8, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("Mesh_Wall_14m")
+
+[node name="Col" type="CollisionShape3D" parent="MazeWalls/Perimeter_West"]
+transform = Transform3D(3.8, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("Shape_Wall_14m")
+
+[node name="Perimeter_East" type="StaticBody3D" parent="MazeWalls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 26, 2, 0)
+
+[node name="Body" type="MeshInstance3D" parent="MazeWalls/Perimeter_East"]
+transform = Transform3D(3.8, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("Mesh_Wall_14m")
+
+[node name="Col" type="CollisionShape3D" parent="MazeWalls/Perimeter_East"]
+transform = Transform3D(3.8, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("Shape_Wall_14m")
+
+[node name="CorridorWall_1" type="StaticBody3D" parent="MazeWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, -12)
+
+[node name="Body" type="MeshInstance3D" parent="MazeWalls/CorridorWall_1"]
+mesh = SubResource("Mesh_Wall_14m")
+
+[node name="Trim" type="MeshInstance3D" parent="MazeWalls/CorridorWall_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, 0)
+mesh = SubResource("Mesh_Trim_14m")
+
+[node name="Stripe" type="MeshInstance3D" parent="MazeWalls/CorridorWall_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("Mesh_Stripe_14m")
+
+[node name="Col" type="CollisionShape3D" parent="MazeWalls/CorridorWall_1"]
+shape = SubResource("Shape_Wall_14m")
+
+[node name="CorridorWall_2" type="StaticBody3D" parent="MazeWalls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3, 2, -5)
+
+[node name="Body" type="MeshInstance3D" parent="MazeWalls/CorridorWall_2"]
+mesh = SubResource("Mesh_Wall_14m")
+
+[node name="Trim" type="MeshInstance3D" parent="MazeWalls/CorridorWall_2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, 0)
+mesh = SubResource("Mesh_Trim_14m")
+
+[node name="Col" type="CollisionShape3D" parent="MazeWalls/CorridorWall_2"]
+shape = SubResource("Shape_Wall_14m")
+
+[node name="CorridorWall_3" type="StaticBody3D" parent="MazeWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, -3)
+
+[node name="Body" type="MeshInstance3D" parent="MazeWalls/CorridorWall_3"]
+mesh = SubResource("Mesh_Wall_14m")
+
+[node name="Trim" type="MeshInstance3D" parent="MazeWalls/CorridorWall_3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, 0)
+mesh = SubResource("Mesh_Trim_14m")
+
+[node name="Col" type="CollisionShape3D" parent="MazeWalls/CorridorWall_3"]
+shape = SubResource("Shape_Wall_14m")
+
+[node name="CorridorWall_4" type="StaticBody3D" parent="MazeWalls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 17, 2, -12)
+
+[node name="Body" type="MeshInstance3D" parent="MazeWalls/CorridorWall_4"]
+mesh = SubResource("Mesh_Wall_14m")
+
+[node name="Col" type="CollisionShape3D" parent="MazeWalls/CorridorWall_4"]
+shape = SubResource("Shape_Wall_14m")
+
+[node name="Divider_Gate_L" type="StaticBody3D" parent="MazeWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 12)
+
+[node name="Body" type="MeshInstance3D" parent="MazeWalls/Divider_Gate_L"]
+transform = Transform3D(1.4, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("Mesh_Wall_8m")
+
+[node name="Col" type="CollisionShape3D" parent="MazeWalls/Divider_Gate_L"]
+transform = Transform3D(1.4, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("Shape_Wall_8m")
+
+[node name="Divider_Gate_R" type="StaticBody3D" parent="MazeWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 12)
+
+[node name="Body" type="MeshInstance3D" parent="MazeWalls/Divider_Gate_R"]
+transform = Transform3D(1.4, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("Mesh_Wall_8m")
+
+[node name="Col" type="CollisionShape3D" parent="MazeWalls/Divider_Gate_R"]
+transform = Transform3D(1.4, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("Shape_Wall_8m")
+
+[node name="Interactables" type="Node3D" parent="."]
+
+[node name="KeyItem" parent="Interactables" instance=ExtResource("4_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -18)
+
+[node name="DoorGate" parent="Interactables" instance=ExtResource("5_door")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
+
+[node name="GoalZone" parent="Interactables" instance=ExtResource("6_goal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_player")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -18, 0.1, -18)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
