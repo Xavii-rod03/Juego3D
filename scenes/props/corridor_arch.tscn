@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://b7v2k9n4m1x3q"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_ArchFrame"]
+albedo_color = Color(0.16, 0.18, 0.22, 1)
+metallic = 0.5
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="Mesh_ArchPost"]
+material = SubResource("Mat_ArchFrame")
+size = Vector3(0.5, 4.4, 0.6)
+
+[sub_resource type="BoxMesh" id="Mesh_ArchBeam"]
+material = SubResource("Mat_ArchFrame")
+size = Vector3(5.6, 0.5, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_NeonStrip"]
+albedo_color = Color(0, 0.9, 1, 1)
+emission_enabled = true
+emission = Color(0, 0.9, 1, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="BoxMesh" id="Mesh_NeonUnder"]
+material = SubResource("Mat_NeonStrip")
+size = Vector3(4.8, 0.1, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_PostL"]
+size = Vector3(0.5, 4.4, 0.6)
+
+[sub_resource type="BoxShape3D" id="Shape_PostR"]
+size = Vector3(0.5, 4.4, 0.6)
+
+[node name="CorridorArch" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="PostL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 2.2, 0)
+mesh = SubResource("Mesh_ArchPost")
+
+[node name="ColL" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 2.2, 0)
+shape = SubResource("Shape_PostL")
+
+[node name="PostR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 2.2, 0)
+mesh = SubResource("Mesh_ArchPost")
+
+[node name="ColR" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 2.2, 0)
+shape = SubResource("Shape_PostR")
+
+[node name="TopBeam" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3, 0)
+mesh = SubResource("Mesh_ArchBeam")
+
+[node name="NeonUnder" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 0)
+mesh = SubResource("Mesh_NeonUnder")
