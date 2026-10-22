@@ -1,91 +1,117 @@
-[gd_scene load_steps=22 format=3 uid="uid://b7vyy43f8j91m"]
+[gd_scene load_steps=24 format=3 uid="uid://b7vyy43f8j91m"]
 
-[sub_resource type="StandardMaterial3D" id="Mat_SuitWhite"]
-albedo_color = Color(0.92, 0.94, 0.96, 1)
-roughness = 0.35
+[sub_resource type="StandardMaterial3D" id="Mat_SuitPastel"]
+albedo_color = Color(0.98, 0.95, 0.91, 1)
+roughness = 0.6
+rim_enabled = true
+rim = 0.5
+rim_tint = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_PastelPeach"]
+albedo_color = Color(1, 0.76, 0.72, 1)
+roughness = 0.5
 rim_enabled = true
 rim = 0.4
-rim_tint = 0.5
 
-[sub_resource type="StandardMaterial3D" id="Mat_SuitDark"]
-albedo_color = Color(0.16, 0.18, 0.22, 1)
-roughness = 0.6
+[sub_resource type="StandardMaterial3D" id="Mat_PastelMint"]
+albedo_color = Color(0.65, 0.88, 0.82, 1)
+roughness = 0.5
+rim_enabled = true
+rim = 0.4
 
-[sub_resource type="StandardMaterial3D" id="Mat_AccentBlue"]
-albedo_color = Color(0.18, 0.45, 0.88, 1)
-roughness = 0.3
-metallic = 0.2
+[sub_resource type="StandardMaterial3D" id="Mat_PastelYellow"]
+albedo_color = Color(1, 0.92, 0.62, 1)
+roughness = 0.4
+emission_enabled = true
+emission = Color(1, 0.9, 0.55, 1)
+emission_energy_multiplier = 0.6
 
-[sub_resource type="StandardMaterial3D" id="Mat_Visor"]
-albedo_color = Color(0.04, 0.1, 0.15, 1)
-metallic = 0.6
-roughness = 0.05
+[sub_resource type="StandardMaterial3D" id="Mat_KawaiiEyes"]
+albedo_color = Color(0.12, 0.14, 0.18, 1)
+roughness = 0.1
+metallic = 0.1
 clearcoat_enabled = true
 clearcoat = 1.0
-emission_enabled = true
-emission = Color(0, 0.85, 0.95, 1)
-emission_energy_multiplier = 1.2
 
-[sub_resource type="StandardMaterial3D" id="Mat_GlowThruster"]
-albedo_color = Color(0, 0.9, 1, 1)
-emission_enabled = true
-emission = Color(0, 0.9, 1, 1)
-emission_energy_multiplier = 2.5
+[sub_resource type="StandardMaterial3D" id="Mat_CheekBlush"]
+albedo_color = Color(1, 0.55, 0.65, 0.85)
+roughness = 0.7
 
-[sub_resource type="SphereMesh" id="Mesh_Helmet"]
-material = SubResource("Mat_SuitWhite")
-radius = 0.26
+[sub_resource type="StandardMaterial3D" id="Mat_SoftWarmGlow"]
+albedo_color = Color(1, 0.85, 0.45, 1)
+emission_enabled = true
+emission = Color(1, 0.85, 0.45, 1)
+emission_energy_multiplier = 1.8
+
+[sub_resource type="SphereMesh" id="Mesh_Head"]
+material = SubResource("Mat_SuitPastel")
+radius = 0.28
+height = 0.54
+
+[sub_resource type="CapsuleMesh" id="Mesh_Eye"]
+material = SubResource("Mat_KawaiiEyes")
+radius = 0.045
+height = 0.13
+
+[sub_resource type="SphereMesh" id="Mesh_Blush"]
+material = SubResource("Mat_CheekBlush")
+radius = 0.06
+height = 0.04
+
+[sub_resource type="SphereMesh" id="Mesh_Ear"]
+material = SubResource("Mat_PastelPeach")
+radius = 0.07
+height = 0.14
+
+[sub_resource type="CapsuleMesh" id="Mesh_Torso"]
+material = SubResource("Mat_PastelPeach")
+radius = 0.23
 height = 0.52
 
-[sub_resource type="BoxMesh" id="Mesh_Visor"]
-material = SubResource("Mat_Visor")
-size = Vector3(0.36, 0.16, 0.18)
-
-[sub_resource type="BoxMesh" id="Mesh_Torso"]
-material = SubResource("Mat_SuitWhite")
-size = Vector3(0.46, 0.5, 0.28)
-
-[sub_resource type="BoxMesh" id="Mesh_ChestPlate"]
-material = SubResource("Mat_AccentBlue")
-size = Vector3(0.38, 0.32, 0.08)
+[sub_resource type="SphereMesh" id="Mesh_BadgeStar"]
+material = SubResource("Mat_PastelYellow")
+radius = 0.08
+height = 0.08
 
 [sub_resource type="BoxMesh" id="Mesh_Belt"]
-material = SubResource("Mat_SuitDark")
-size = Vector3(0.44, 0.1, 0.26)
+material = SubResource("Mat_PastelMint")
+size = Vector3(0.44, 0.08, 0.38)
 
-[sub_resource type="BoxMesh" id="Mesh_Backpack"]
-material = SubResource("Mat_SuitDark")
-size = Vector3(0.34, 0.42, 0.18)
+[sub_resource type="CapsuleMesh" id="Mesh_Backpack"]
+material = SubResource("Mat_PastelMint")
+radius = 0.15
+height = 0.38
 
 [sub_resource type="CylinderMesh" id="Mesh_Thruster"]
-material = SubResource("Mat_SuitDark")
-top_radius = 0.07
-bottom_radius = 0.09
-height = 0.32
+material = SubResource("Mat_SuitPastel")
+top_radius = 0.06
+bottom_radius = 0.07
+height = 0.24
 
-[sub_resource type="TorusMesh" id="Mesh_ThrusterGlow"]
-material = SubResource("Mat_GlowThruster")
-inner_radius = 0.04
-outer_radius = 0.08
+[sub_resource type="SphereMesh" id="Mesh_GlowBall"]
+material = SubResource("Mat_SoftWarmGlow")
+radius = 0.05
+height = 0.1
 
 [sub_resource type="SphereMesh" id="Mesh_Shoulder"]
-material = SubResource("Mat_AccentBlue")
-radius = 0.11
-height = 0.22
+material = SubResource("Mat_PastelMint")
+radius = 0.09
+height = 0.18
 
 [sub_resource type="CapsuleMesh" id="Mesh_Arm"]
-material = SubResource("Mat_SuitWhite")
-radius = 0.08
-height = 0.4
+material = SubResource("Mat_SuitPastel")
+radius = 0.075
+height = 0.36
 
 [sub_resource type="CapsuleMesh" id="Mesh_Leg"]
-material = SubResource("Mat_SuitDark")
-radius = 0.095
-height = 0.5
+material = SubResource("Mat_SuitPastel")
+radius = 0.085
+height = 0.42
 
-[sub_resource type="BoxMesh" id="Mesh_Boot"]
-material = SubResource("Mat_AccentBlue")
-size = Vector3(0.18, 0.18, 0.28)
+[sub_resource type="SphereMesh" id="Mesh_Boot"]
+material = SubResource("Mat_PastelPeach")
+radius = 0.11
+height = 0.22
 
 [sub_resource type="Animation" id="Animation_idle"]
 resource_name = "idle"
@@ -101,7 +127,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1, 2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 1.05, 0), Vector3(0, 1.075, 0), Vector3(0, 1.05, 0)]
+"values": [Vector3(0, 1.05, 0), Vector3(0, 1.08, 0), Vector3(0, 1.05, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -113,7 +139,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 1, 2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 1.48, 0), Vector3(0, 1.51, 0), Vector3(0, 1.48, 0)]
+"values": [Vector3(0, 1.48, 0), Vector3(0, 1.515, 0), Vector3(0, 1.48, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -125,7 +151,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 1, 2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.06, 0, 0.04), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0.08, 0, 0.06), Vector3(0, 0, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -137,7 +163,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 1, 2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.06, 0, -0.04), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0.08, 0, -0.06), Vector3(0, 0, 0)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -166,7 +192,7 @@ tracks/5/keys = {
 
 [sub_resource type="Animation" id="Animation_walk"]
 resource_name = "walk"
-length = 0.8
+length = 0.7
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -175,10 +201,10 @@ tracks/0/path = NodePath("Leg_L:rotation")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"times": PackedFloat32Array(0, 0.175, 0.35, 0.525, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.55, 0, 0), Vector3(0, 0, 0), Vector3(-0.55, 0, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0.5, 0, 0), Vector3(0, 0, 0), Vector3(-0.5, 0, 0), Vector3(0, 0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -187,10 +213,10 @@ tracks/1/path = NodePath("Leg_R:rotation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"times": PackedFloat32Array(0, 0.175, 0.35, 0.525, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(-0.55, 0, 0), Vector3(0, 0, 0), Vector3(0.55, 0, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(-0.5, 0, 0), Vector3(0, 0, 0), Vector3(0.5, 0, 0), Vector3(0, 0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -199,10 +225,10 @@ tracks/2/path = NodePath("Arm_L:rotation")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"times": PackedFloat32Array(0, 0.175, 0.35, 0.525, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(-0.45, 0, 0), Vector3(0, 0, 0), Vector3(0.45, 0, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(-0.4, 0, 0), Vector3(0, 0, 0), Vector3(0.4, 0, 0), Vector3(0, 0, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -211,10 +237,10 @@ tracks/3/path = NodePath("Arm_R:rotation")
 tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"times": PackedFloat32Array(0, 0.175, 0.35, 0.525, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.45, 0, 0), Vector3(0, 0, 0), Vector3(-0.45, 0, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0.4, 0, 0), Vector3(0, 0, 0), Vector3(-0.4, 0, 0), Vector3(0, 0, 0)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -223,15 +249,15 @@ tracks/4/path = NodePath("Torso:position")
 tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"times": PackedFloat32Array(0, 0.175, 0.35, 0.525, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 1.05, 0), Vector3(0, 1.08, 0), Vector3(0, 1.05, 0), Vector3(0, 1.08, 0), Vector3(0, 1.05, 0)]
+"values": [Vector3(0, 1.05, 0), Vector3(0, 1.09, 0), Vector3(0, 1.05, 0), Vector3(0, 1.09, 0), Vector3(0, 1.05, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_jump"]
 resource_name = "jump"
-length = 1.0
+length = 0.9
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -239,10 +265,10 @@ tracks/0/path = NodePath("Leg_L:rotation")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.6, 1),
+"times": PackedFloat32Array(0, 0.2, 0.55, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(-0.4, 0, 0), Vector3(0.3, 0, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(-0.35, 0, 0), Vector3(0.25, 0, 0), Vector3(0, 0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -251,10 +277,10 @@ tracks/1/path = NodePath("Leg_R:rotation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.6, 1),
+"times": PackedFloat32Array(0, 0.2, 0.55, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(-0.45, 0, 0), Vector3(0.25, 0, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(-0.35, 0, 0), Vector3(0.25, 0, 0), Vector3(0, 0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -263,10 +289,10 @@ tracks/2/path = NodePath("Arm_L:rotation")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.6, 1),
+"times": PackedFloat32Array(0, 0.2, 0.55, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(-0.9, 0, 0.2), Vector3(-0.4, 0, 0.1), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(-0.8, 0, 0.2), Vector3(-0.3, 0, 0.1), Vector3(0, 0, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -275,10 +301,10 @@ tracks/3/path = NodePath("Arm_R:rotation")
 tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.6, 1),
+"times": PackedFloat32Array(0, 0.2, 0.55, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(-0.9, 0, -0.2), Vector3(-0.4, 0, -0.1), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(-0.8, 0, -0.2), Vector3(-0.3, 0, -0.1), Vector3(0, 0, 0)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -287,10 +313,10 @@ tracks/4/path = NodePath("Torso:position")
 tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.5, 0.85, 1),
+"times": PackedFloat32Array(0, 0.15, 0.45, 0.75, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 1.05, 0), Vector3(0, 0.98, 0), Vector3(0, 1.15, 0), Vector3(0, 1.02, 0), Vector3(0, 1.05, 0)]
+"values": [Vector3(0, 1.05, 0), Vector3(0, 0.97, 0), Vector3(0, 1.16, 0), Vector3(0, 1.03, 0), Vector3(0, 1.05, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_char"]
@@ -306,11 +332,31 @@ _data = {
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48, 0)
 
 [node name="Helmet" type="MeshInstance3D" parent="Head"]
-mesh = SubResource("Mesh_Helmet")
+mesh = SubResource("Mesh_Head")
 
-[node name="Visor" type="MeshInstance3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0.17)
-mesh = SubResource("Mesh_Visor")
+[node name="Eye_L" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.02, 0.25)
+mesh = SubResource("Mesh_Eye")
+
+[node name="Eye_R" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.02, 0.25)
+mesh = SubResource("Mesh_Eye")
+
+[node name="Blush_L" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, -0.06, 0.22)
+mesh = SubResource("Mesh_Blush")
+
+[node name="Blush_R" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, -0.06, 0.22)
+mesh = SubResource("Mesh_Blush")
+
+[node name="Ear_L" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.22, 0.22, 0)
+mesh = SubResource("Mesh_Ear")
+
+[node name="Ear_R" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.22, 0.22, 0)
+mesh = SubResource("Mesh_Ear")
 
 [node name="Torso" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
@@ -318,76 +364,76 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
 [node name="MainBody" type="MeshInstance3D" parent="Torso"]
 mesh = SubResource("Mesh_Torso")
 
-[node name="ChestPlate" type="MeshInstance3D" parent="Torso"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0.12)
-mesh = SubResource("Mesh_ChestPlate")
+[node name="ChestBadge" type="MeshInstance3D" parent="Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0.22)
+mesh = SubResource("Mesh_BadgeStar")
 
 [node name="Belt" type="MeshInstance3D" parent="Torso"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.26, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
 mesh = SubResource("Mesh_Belt")
 
 [node name="Backpack" type="Node3D" parent="Torso"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -0.18)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -0.2)
 
 [node name="PackBody" type="MeshInstance3D" parent="Torso/Backpack"]
 mesh = SubResource("Mesh_Backpack")
 
 [node name="Thruster_L" type="MeshInstance3D" parent="Torso/Backpack"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, -0.1, -0.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, -0.12, 0)
 mesh = SubResource("Mesh_Thruster")
 
 [node name="Glow_L" type="MeshInstance3D" parent="Torso/Backpack/Thruster_L"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.16, 0)
-mesh = SubResource("Mesh_ThrusterGlow")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+mesh = SubResource("Mesh_GlowBall")
 
 [node name="Thruster_R" type="MeshInstance3D" parent="Torso/Backpack"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, -0.1, -0.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -0.12, 0)
 mesh = SubResource("Mesh_Thruster")
 
 [node name="Glow_R" type="MeshInstance3D" parent="Torso/Backpack/Thruster_R"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.16, 0)
-mesh = SubResource("Mesh_ThrusterGlow")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+mesh = SubResource("Mesh_GlowBall")
 
 [node name="Arm_L" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 1.22, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 1.2, 0)
 
 [node name="Shoulder" type="MeshInstance3D" parent="Arm_L"]
 mesh = SubResource("Mesh_Shoulder")
 
 [node name="Limb" type="MeshInstance3D" parent="Arm_L"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, -0.22, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.18, 0)
 mesh = SubResource("Mesh_Arm")
 
 [node name="Arm_R" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 1.22, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1.2, 0)
 
 [node name="Shoulder" type="MeshInstance3D" parent="Arm_R"]
 mesh = SubResource("Mesh_Shoulder")
 
 [node name="Limb" type="MeshInstance3D" parent="Arm_R"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04, -0.22, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.18, 0)
 mesh = SubResource("Mesh_Arm")
 
 [node name="Leg_L" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.72, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14, 0.7, 0)
 
 [node name="Limb" type="MeshInstance3D" parent="Leg_L"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18, 0)
 mesh = SubResource("Mesh_Leg")
 
 [node name="Boot" type="MeshInstance3D" parent="Leg_L"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.62, 0.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.04)
 mesh = SubResource("Mesh_Boot")
 
 [node name="Leg_R" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.72, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14, 0.7, 0)
 
 [node name="Limb" type="MeshInstance3D" parent="Leg_R"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18, 0)
 mesh = SubResource("Mesh_Leg")
 
 [node name="Boot" type="MeshInstance3D" parent="Leg_R"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.62, 0.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.04)
 mesh = SubResource("Mesh_Boot")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

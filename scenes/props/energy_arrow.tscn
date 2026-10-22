@@ -1,25 +1,26 @@
 [gd_scene load_steps=6 format=3 uid="uid://b2m8n4k1v9b7c"]
 
-[sub_resource type="StandardMaterial3D" id="Mat_ArrowGlow"]
-albedo_color = Color(0, 0.9, 1, 1)
+[sub_resource type="StandardMaterial3D" id="Mat_ArrowPastel"]
+albedo_color = Color(1, 0.9, 0.55, 1)
+roughness = 0.4
 emission_enabled = true
-emission = Color(0, 0.9, 1, 1)
-emission_energy_multiplier = 2.5
+emission = Color(1, 0.88, 0.5, 1)
+emission_energy_multiplier = 1.6
 
 [sub_resource type="BoxMesh" id="Mesh_ArrowStem"]
-material = SubResource("Mat_ArrowGlow")
-size = Vector3(0.3, 0.02, 0.8)
+material = SubResource("Mat_ArrowPastel")
+size = Vector3(0.28, 0.02, 0.7)
 
 [sub_resource type="PrismMesh" id="PrismMesh_head"]
-material = SubResource("Mat_ArrowGlow")
-size = Vector3(0.8, 0.6, 0.02)
+material = SubResource("Mat_ArrowPastel")
+size = Vector3(0.7, 0.5, 0.02)
 
 [node name="EnergyArrow" type="Node3D"]
 
 [node name="Stem" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -0.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -0.35)
 mesh = SubResource("Mesh_ArrowStem")
 
 [node name="Head" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0.2)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.015, 0.18)
 mesh = SubResource("PrismMesh_head")

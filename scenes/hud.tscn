@@ -3,43 +3,43 @@
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
-bg_color = Color(0.08, 0.1, 0.14, 0.8)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0, 0.85, 0.95, 0.4)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0, 0, 0, 0.35)
-shadow_size = 8
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_victory"]
-bg_color = Color(0.06, 0.08, 0.12, 0.92)
+bg_color = Color(0.98, 0.97, 0.94, 0.88)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.2, 0.9, 0.4, 0.8)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-shadow_color = Color(0, 0, 0, 0.6)
-shadow_size = 16
+border_color = Color(1, 0.76, 0.82, 0.95)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0.4, 0.3, 0.35, 0.15)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_victory"]
+bg_color = Color(0.98, 0.96, 0.92, 0.96)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.5, 0.88, 0.72, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.3, 0.4, 0.35, 0.25)
+shadow_size = 20
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_hud")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 360.0
-offset_bottom = 300.0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+offset_right = 370.0
+offset_bottom = 310.0
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 22
 
 [node name="Panel" type="Panel" parent="MarginContainer"]
 layout_mode = 2
@@ -47,10 +47,10 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
 
 [node name="ContentMargin" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ContentMargin"]
 layout_mode = 2
@@ -62,16 +62,16 @@ layout_mode = 2
 [node name="Title" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/HeaderBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_color = Color(0.28, 0.3, 0.38, 1)
 theme_override_font_sizes/font_size = 16
-text = "LABERINTO 3D // ENTREGA 1"
+text = "✨ LABERINTO MÁGICO ✨"
 
 [node name="RunTimerLabel" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/HeaderBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_color = Color(0.85, 0.55, 0.2, 1)
 theme_override_font_sizes/font_size = 14
-text = "Tiempo: 00:00.0"
+text = "00:00.0"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/ContentMargin/VBoxContainer"]
 layout_mode = 2
@@ -79,9 +79,9 @@ layout_mode = 2
 [node name="ObjectiveLabel" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
+theme_override_colors/font_color = Color(0.9, 0.45, 0.55, 1)
 theme_override_font_sizes/font_size = 12
-text = "OBJETIVO: Explora y recoge la Tarjeta de Acceso."
+text = "Misión: Encuentra la Estrella de Acceso ⭐"
 autowrap_mode = 2
 
 [node name="KeyContainer" type="HBoxContainer" parent="MarginContainer/ContentMargin/VBoxContainer"]
@@ -89,13 +89,13 @@ layout_mode = 2
 
 [node name="KeyTitle" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/KeyContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
-text = "Tarjeta Acceso: "
+theme_override_colors/font_color = Color(0.35, 0.38, 0.45, 1)
+text = "Estrella Mágica: "
 
 [node name="KeyStatusLabel" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/KeyContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.3, 0.3, 1)
+theme_override_colors/font_color = Color(0.95, 0.45, 0.5, 1)
 text = "[ ❌ NO OBTENIDA ]"
 
 [node name="StateContainer" type="HBoxContainer" parent="MarginContainer/ContentMargin/VBoxContainer"]
@@ -103,8 +103,8 @@ layout_mode = 2
 
 [node name="StateTitle" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/StateContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
-text = "Estado FSM: "
+theme_override_colors/font_color = Color(0.35, 0.38, 0.45, 1)
+text = "Estado: "
 
 [node name="StateValue" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/StateContainer"]
 unique_name_in_owner = true
@@ -117,13 +117,13 @@ layout_mode = 2
 
 [node name="FPSTitle" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/FPSContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_colors/font_color = Color(0.35, 0.38, 0.45, 1)
 text = "Rendimiento: "
 
 [node name="FPSValue" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/FPSContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 0.9, 0.5, 1)
+theme_override_colors/font_color = Color(0.3, 0.75, 0.55, 1)
 text = "60 FPS"
 
 [node name="VelContainer" type="HBoxContainer" parent="MarginContainer/ContentMargin/VBoxContainer"]
@@ -131,12 +131,13 @@ layout_mode = 2
 
 [node name="VelTitle" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/VelContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_colors/font_color = Color(0.35, 0.38, 0.45, 1)
 text = "Velocidad: "
 
 [node name="VelValue" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/VelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.42, 0.5, 1)
 text = "0.00 m/s"
 
 [node name="LimitContainer" type="HBoxContainer" parent="MarginContainer/ContentMargin/VBoxContainer"]
@@ -144,13 +145,13 @@ layout_mode = 2
 
 [node name="LimitTitle" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/LimitContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_colors/font_color = Color(0.35, 0.38, 0.45, 1)
 text = "Límite FPS [F1]: "
 
 [node name="LimitValue" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer/LimitContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
+theme_override_colors/font_color = Color(0.85, 0.55, 0.2, 1)
 text = "Ilimitado"
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/ContentMargin/VBoxContainer"]
@@ -158,11 +159,10 @@ layout_mode = 2
 
 [node name="Controls" type="Label" parent="MarginContainer/ContentMargin/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.65, 0.7, 0.8, 1)
+theme_override_colors/font_color = Color(0.5, 0.52, 0.6, 1)
 theme_override_font_sizes/font_size = 11
-text = "WASD: Moverse | ESPACIO: Saltar
-Ratón: Cámara | ESC: Liberar cursor
-R: Reiniciar | F1: FPS | B: Benchmark"
+text = "WASD: Caminar | ESPACIO: Saltar
+Ratón: Mirar | ESC: Cursor | R: Reiniciar"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -175,34 +175,34 @@ mouse_filter = 2
 [node name="VictoryPanel" type="PanelContainer" parent="CenterContainer"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(460, 240)
+custom_minimum_size = Vector2(480, 250)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_victory")
 
 [node name="Margin" type="MarginContainer" parent="CenterContainer/VictoryPanel"]
 layout_mode = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 26
 
 [node name="VBox" type="VBoxContainer" parent="CenterContainer/VictoryPanel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="VictoryHeader" type="Label" parent="CenterContainer/VictoryPanel/Margin/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.9, 0.4, 1)
-theme_override_font_sizes/font_size = 22
-text = "¡NIVEL COMPLETADO!"
+theme_override_colors/font_color = Color(0.3, 0.75, 0.5, 1)
+theme_override_font_sizes/font_size = 24
+text = "🌸 ¡NIVEL COMPLETADO! 🌸"
 horizontal_alignment = 1
 
 [node name="VictorySub" type="Label" parent="CenterContainer/VictoryPanel/Margin/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.9, 1, 1)
+theme_override_colors/font_color = Color(0.3, 0.32, 0.4, 1)
 theme_override_font_sizes/font_size = 14
-text = "Has desbloqueado la compuerta y alcanzado la meta con éxito."
+text = "¡Desbloqueaste la compuerta y encontraste la meta!"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -212,14 +212,14 @@ layout_mode = 2
 [node name="VictoryTimeLabel" type="Label" parent="CenterContainer/VictoryPanel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_colors/font_color = Color(0.9, 0.55, 0.2, 1)
 theme_override_font_sizes/font_size = 16
 text = "Tiempo final: 00:00.00"
 horizontal_alignment = 1
 
 [node name="VictoryHint" type="Label" parent="CenterContainer/VictoryPanel/Margin/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.65, 0.7, 0.8, 1)
+theme_override_colors/font_color = Color(0.55, 0.58, 0.65, 1)
 theme_override_font_sizes/font_size = 12
-text = "Presiona [ R ] para volver a jugar o [ ESC ] para liberar el cursor."
+text = "Presiona [ R ] para jugar de nuevo."
 horizontal_alignment = 1

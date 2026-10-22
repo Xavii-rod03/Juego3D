@@ -1,13 +1,14 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
 
-uniform vec4 background_color : source_color = vec4(0.12, 0.14, 0.18, 1.0);
-uniform vec4 grid_color : source_color = vec4(0.25, 0.32, 0.42, 1.0);
-uniform vec4 accent_grid_color : source_color = vec4(0.0, 0.85, 0.95, 0.4);
-uniform float grid_size : hint_range(0.5, 10.0) = 2.0;
-uniform float line_thickness : hint_range(0.005, 0.1) = 0.02;
-uniform float roughness : hint_range(0.0, 1.0) = 0.6;
-uniform float metallic : hint_range(0.0, 1.0) = 0.1;
+// Shader de suelo estilo Kawaii Low-Poly: losas suaves pastel y jardín estilizado
+uniform vec4 tile_color_a : source_color = vec4(0.96, 0.94, 0.89, 1.0); // Crema cálido
+uniform vec4 tile_color_b : source_color = vec4(0.88, 0.93, 0.89, 1.0); // Menta pastel suave
+uniform vec4 border_color : source_color = vec4(0.82, 0.80, 0.74, 1.0); // Borde arena suave
+uniform vec4 path_glow_color : source_color = vec4(1.0, 0.85, 0.55, 0.3); // Acento cálido suave
+uniform float tile_size : hint_range(0.5, 6.0) = 2.0;
+uniform float border_width : hint_range(0.01, 0.15) = 0.04;
+uniform float roughness : hint_range(0.0, 1.0) = 0.75;
 
 varying vec3 world_pos;
 
@@ -16,22 +17,29 @@ void vertex() {
 }
 
 void fragment() {
-	vec2 uv_coords = world_pos.xz / grid_size;
-	vec2 grid_frac = abs(fract(uv_coords - 0.5) - 0.5) / fwidth(uv_coords);
-	float line = min(grid_frac.x, grid_frac.y);
-	float c = 1.0 - min(line, 1.0);
+	vec2 uv = world_pos.xz / tile_size;
+	vec2 tile_id = floor(uv);
+	vec2 f = fract(uv);
 	
-	// Cuadrícula mayor cada 5 unidades (10 metros)
-	vec2 major_uv = world_pos.xz / (grid_size * 5.0);
-	vec2 major_frac = abs(fract(major_uv - 0.5) - 0.5) / fwidth(major_uv);
-	float major_line = min(major_frac.x, major_frac.y);
-	float major_c = 1.0 - min(major_line, 1.0);
+	// Patrón de tablero alternado suave
+	float checker = mod(tile_id.x + tile_id.y, 2.0);
+	vec3 base_color = mix(tile_color_a.rgb, tile_color_b.rgb, checker);
 	
-	vec3 base = mix(background_color.rgb, grid_color.rgb, c * 0.7);
-	vec3 final_color = mix(base, accent_grid_color.rgb, major_c * accent_grid_color.a);
+	// Bordes redondeados de las losas
+	vec2 dist_to_edge = min(f, 1.0 - f);
+	float edge = min(dist_to_edge.x, dist_to_edge.y);
+	float border_mask = smoothstep(0.0, border_width, edge);
 	
+	vec3 final_color = mix(border_color.rgb, base_color, border_mask);
+	
+	// Sutil brillo cálido cada 10 metros para orientación
+	vec2 major_uv = world_pos.xz / (tile_size * 5.0);
+	vec2 major_f = abs(fract(major_uv - 0.5) - 0.5);
+	float major_line = 1.0 - smoothstep(0.0, 0.03, min(major_f.x, major_f.y));
+	final_color = mix(final_color, path_glow_color.rgb, major_line * path_glow_color.a);
+
 	ALBEDO = final_color;
 	ROUGHNESS = roughness;
-	METALLIC = metallic;
-	SPECULAR = 0.5;
+	METALLIC = 0.0;
+	SPECULAR = 0.2;
 }

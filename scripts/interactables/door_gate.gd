@@ -1,8 +1,8 @@
 extends Node3D
 class_name DoorGate
 
-## Compuerta de seguridad que bloquea el paso hacia la zona de meta.
-## Al recibir la señal de que la llave fue recogida, desciende y desactiva su colisión.
+## Compuerta / Reja mágica estilo Kawaii
+## Desciende y abre el paso hacia la meta cuando se recoge la estrella de acceso.
 
 @export var is_open: bool = false
 @export var open_speed: float = 2.0
@@ -25,16 +25,16 @@ func _ready() -> void:
 	target_y = initial_y
 	
 	mat_locked = StandardMaterial3D.new()
-	mat_locked.albedo_color = Color(0.9, 0.15, 0.15)
+	mat_locked.albedo_color = Color(1.0, 0.5, 0.62) # Rosa/Coral pastel tierno
 	mat_locked.emission_enabled = true
-	mat_locked.emission = Color(0.9, 0.15, 0.15)
-	mat_locked.emission_energy_multiplier = 2.0
+	mat_locked.emission = Color(1.0, 0.48, 0.6)
+	mat_locked.emission_energy_multiplier = 1.8
 	
 	mat_unlocked = StandardMaterial3D.new()
-	mat_unlocked.albedo_color = Color(0.2, 0.9, 0.3)
+	mat_unlocked.albedo_color = Color(0.45, 0.92, 0.72) # Menta pastel
 	mat_unlocked.emission_enabled = true
-	mat_unlocked.emission = Color(0.2, 0.9, 0.3)
-	mat_unlocked.emission_energy_multiplier = 2.5
+	mat_unlocked.emission = Color(0.45, 0.92, 0.72)
+	mat_unlocked.emission_energy_multiplier = 2.0
 	
 	_update_visuals()
 
@@ -54,16 +54,16 @@ func open_door() -> void:
 	target_y = initial_y - open_depth
 	moving = true
 	_update_visuals()
-	print("[MECÁNICA] Activando mecanismo: Abriendo compuerta de seguridad...")
+	print("[MECÁNICA] Activando mecanismo: Abriendo compuerta...")
 
 func _update_visuals() -> void:
 	if is_open:
 		if is_instance_valid(status_light):
-			status_light.light_color = Color(0.2, 0.9, 0.3)
+			status_light.light_color = Color(0.45, 0.92, 0.72)
 		if is_instance_valid(status_indicator):
 			status_indicator.material_override = mat_unlocked
 	else:
 		if is_instance_valid(status_light):
-			status_light.light_color = Color(0.9, 0.15, 0.15)
+			status_light.light_color = Color(1.0, 0.5, 0.62)
 		if is_instance_valid(status_indicator):
 			status_indicator.material_override = mat_locked

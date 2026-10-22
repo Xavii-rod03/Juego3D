@@ -1,30 +1,37 @@
 [gd_scene load_steps=8 format=3 uid="uid://c3m7n9k2v1b8w"]
 
 [sub_resource type="StandardMaterial3D" id="Mat_Stand"]
-albedo_color = Color(0.18, 0.2, 0.25, 1)
-metallic = 0.7
-roughness = 0.35
+albedo_color = Color(0.95, 0.92, 0.86, 1)
+roughness = 0.6
 
-[sub_resource type="BoxMesh" id="Mesh_Stand"]
+[sub_resource type="CylinderMesh" id="Mesh_Stand"]
 material = SubResource("Mat_Stand")
-size = Vector3(0.7, 1.0, 0.5)
+top_radius = 0.3
+bottom_radius = 0.38
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_ConsoleTop"]
+albedo_color = Color(0.7, 0.88, 0.82, 1)
+roughness = 0.5
 
 [sub_resource type="BoxMesh" id="Mesh_ConsoleTop"]
-material = SubResource("Mat_Stand")
-size = Vector3(0.9, 0.15, 0.6)
+material = SubResource("Mat_ConsoleTop")
+size = Vector3(0.85, 0.16, 0.55)
 
 [sub_resource type="StandardMaterial3D" id="Mat_HoloScreen"]
-albedo_color = Color(0, 0.85, 1, 0.9)
+albedo_color = Color(1, 0.92, 0.6, 0.95)
 emission_enabled = true
-emission = Color(0, 0.85, 1, 1)
-emission_energy_multiplier = 3.0
+emission = Color(1, 0.9, 0.55, 1)
+emission_energy_multiplier = 2.0
 
-[sub_resource type="BoxMesh" id="Mesh_HoloScreen"]
+[sub_resource type="SphereMesh" id="Mesh_HoloOrb"]
 material = SubResource("Mat_HoloScreen")
-size = Vector3(0.8, 0.5, 0.04)
+radius = 0.22
+height = 0.35
 
-[sub_resource type="BoxShape3D" id="Shape_Terminal"]
-size = Vector3(0.9, 1.6, 0.6)
+[sub_resource type="CylinderShape3D" id="Shape_Terminal"]
+height = 1.6
+radius = 0.45
 
 [node name="ControlTerminal" type="StaticBody3D"]
 collision_layer = 1
@@ -42,12 +49,12 @@ mesh = SubResource("Mesh_Stand")
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.05, 0.05)
 mesh = SubResource("Mesh_ConsoleTop")
 
-[node name="HoloScreen" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 1.45, -0.05)
-mesh = SubResource("Mesh_HoloScreen")
+[node name="HoloOrb" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+mesh = SubResource("Mesh_HoloOrb")
 
 [node name="ScreenLight" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0.3)
-light_color = Color(0, 0.85, 1, 1)
+light_color = Color(1, 0.92, 0.65, 1)
 light_energy = 1.8
 omni_range = 3.5

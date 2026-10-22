@@ -20,21 +20,26 @@ var is_game_active: bool = true
 func _ready() -> void:
 	victory_panel.visible = false
 	_update_fps_limit_display()
+	_find_player()
+
+func _find_player() -> void:
+	if not is_inside_tree():
+		return
 	
-	# Buscar al jugador en el árbol
-	await get_tree().process_frame
-	player = get_tree().get_first_node_in_group("player")
-	if not player:
-		for node in get_tree().root.find_children("*", "CharacterBody3D", true, false):
-			if node is Player:
-				player = node
-				break
+	# Buscar al jugador en el grupo 'player' de forma segura
+	player = get_tree().get_first_node_in_group("player") as Player
+	if not player and get_parent():
+		player = get_parent().get_node_or_null("Player") as Player
 				
-	if player:
-		player.state_changed.connect(_on_player_state_changed)
+	if is_instance_valid(player):
+		if not player.state_changed.is_connected(_on_player_state_changed):
+			player.state_changed.connect(_on_player_state_changed)
 		_update_state_display(player.get_current_state_name())
 
 func _process(delta: float) -> void:
+	if not is_inside_tree():
+		return
+		
 	fps_label.text = "%d FPS" % Engine.get_frames_per_second()
 	
 	if is_game_active:
@@ -44,7 +49,10 @@ func _process(delta: float) -> void:
 		var millis = int((elapsed_time - int(elapsed_time)) * 10)
 		run_timer_label.text = "Tiempo: %02d:%02d.%d" % [minutes, seconds, millis]
 	
-	if player:
+	if not is_instance_valid(player):
+		_find_player()
+	
+	if is_instance_valid(player):
 		var horiz_vel = Vector2(player.velocity.x, player.velocity.z).length()
 		velocity_label.text = "H: %.2f m/s | Y: %.2f" % [horiz_vel, player.velocity.y]
 

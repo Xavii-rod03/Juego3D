@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://c3x7m2k9a1b0y"]
+[gd_scene load_steps=37 format=3 uid="uid://c3x7m2k9a1b0y"]
 
 [ext_resource type="Script" path="res://scripts/level_controller.gd" id="1_controller"]
 [ext_resource type="Shader" path="res://shaders/grid_floor.gdshader" id="1_grid_shader"]
@@ -13,43 +13,45 @@
 [ext_resource type="PackedScene" uid="uid://c3m7n9k2v1b8w" path="res://scenes/props/control_terminal.tscn" id="10_terminal"]
 [ext_resource type="PackedScene" uid="uid://b2m8n4k1v9b7c" path="res://scenes/props/energy_arrow.tscn" id="11_arrow"]
 [ext_resource type="PackedScene" uid="uid://dm7n4v2k1b9w8" path="res://scenes/props/jump_pad_platform.tscn" id="12_platform"]
+[ext_resource type="PackedScene" uid="uid://b1n8m4v2k9c7x" path="res://scenes/props/kawaii_bush.tscn" id="13_bush"]
+[ext_resource type="PackedScene" uid="uid://dm2k8n4v1b9p5" path="res://scenes/props/kawaii_flower.tscn" id="14_flower"]
 
-[sub_resource type="ProceduralSkyMaterial" id="SkyMat_rich"]
-sky_top_color = Color(0.24, 0.46, 0.88, 1)
-sky_horizon_color = Color(0.72, 0.82, 0.94, 1)
-ground_bottom_color = Color(0.1, 0.12, 0.16, 1)
-ground_horizon_color = Color(0.55, 0.65, 0.78, 1)
+[sub_resource type="ProceduralSkyMaterial" id="SkyMat_kawaii"]
+sky_top_color = Color(0.48, 0.72, 0.95, 1)
+sky_horizon_color = Color(0.92, 0.88, 0.84, 1)
+ground_bottom_color = Color(0.72, 0.84, 0.78, 1)
+ground_horizon_color = Color(0.88, 0.85, 0.82, 1)
 sun_angle_max = 35.0
 
 [sub_resource type="Sky" id="Sky_env"]
-sky_material = SubResource("SkyMat_rich")
+sky_material = SubResource("SkyMat_kawaii")
 
-[sub_resource type="Environment" id="Env_modern"]
+[sub_resource type="Environment" id="Env_kawaii"]
 background_mode = 2
 sky = SubResource("Sky_env")
-tonemap_mode = 3
-tonemap_exposure = 1.1
+tonemap_mode = 2
+tonemap_exposure = 1.05
 ssao_enabled = true
-ssao_radius = 1.6
-ssao_intensity = 2.2
+ssao_radius = 1.4
+ssao_intensity = 1.8
 glow_enabled = true
-glow_intensity = 0.9
-glow_bloom = 0.2
+glow_intensity = 0.7
+glow_bloom = 0.15
 fog_enabled = true
-fog_light_color = Color(0.68, 0.78, 0.9, 1)
-fog_density = 0.003
-fog_sky_affect = 0.25
+fog_light_color = Color(0.85, 0.9, 0.95, 1)
+fog_density = 0.002
+fog_sky_affect = 0.2
 
 [sub_resource type="ShaderMaterial" id="ShaderMat_floor"]
 render_priority = 0
 shader = ExtResource("1_grid_shader")
-shader_parameter/background_color = Color(0.1, 0.12, 0.16, 1)
-shader_parameter/grid_color = Color(0.2, 0.26, 0.36, 1)
-shader_parameter/accent_grid_color = Color(0, 0.88, 1, 0.4)
-shader_parameter/grid_size = 2.0
-shader_parameter/line_thickness = 0.02
-shader_parameter/roughness = 0.5
-shader_parameter/metallic = 0.18
+shader_parameter/tile_color_a = Color(0.96, 0.94, 0.89, 1)
+shader_parameter/tile_color_b = Color(0.88, 0.93, 0.89, 1)
+shader_parameter/border_color = Color(0.82, 0.8, 0.74, 1)
+shader_parameter/path_glow_color = Color(1, 0.88, 0.6, 0.3)
+shader_parameter/tile_size = 2.0
+shader_parameter/border_width = 0.04
+shader_parameter/roughness = 0.75
 
 [sub_resource type="BoxMesh" id="Mesh_floor"]
 material = SubResource("ShaderMat_floor")
@@ -58,25 +60,24 @@ size = Vector3(70, 1, 70)
 [sub_resource type="BoxShape3D" id="Shape_floor"]
 size = Vector3(70, 1, 70)
 
-[sub_resource type="StandardMaterial3D" id="Mat_WallBody"]
-albedo_color = Color(0.88, 0.91, 0.95, 1)
-roughness = 0.45
+[sub_resource type="StandardMaterial3D" id="Mat_WallCream"]
+albedo_color = Color(0.96, 0.93, 0.88, 1)
+roughness = 0.65
 
-[sub_resource type="StandardMaterial3D" id="Mat_WallTrim"]
-albedo_color = Color(0.16, 0.18, 0.24, 1)
+[sub_resource type="StandardMaterial3D" id="Mat_WallTrimMint"]
+albedo_color = Color(0.76, 0.85, 0.82, 1)
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_WallStripePeach"]
+albedo_color = Color(1, 0.8, 0.72, 1)
 roughness = 0.5
-metallic = 0.35
-
-[sub_resource type="StandardMaterial3D" id="Mat_NeonCyan"]
-albedo_color = Color(0, 0.9, 1, 1)
 emission_enabled = true
-emission = Color(0, 0.9, 1, 1)
-emission_energy_multiplier = 2.5
+emission = Color(1, 0.75, 0.68, 1)
+emission_energy_multiplier = 0.8
 
 [sub_resource type="StandardMaterial3D" id="Mat_StartPad"]
-albedo_color = Color(0.14, 0.16, 0.2, 1)
-metallic = 0.6
-roughness = 0.3
+albedo_color = Color(0.92, 0.88, 0.82, 1)
+roughness = 0.6
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_start"]
 material = SubResource("Mat_StartPad")
@@ -84,38 +85,38 @@ top_radius = 2.5
 bottom_radius = 2.7
 height = 0.15
 
-[sub_resource type="StandardMaterial3D" id="Mat_StartRing"]
-albedo_color = Color(0.2, 0.95, 0.45, 1)
+[sub_resource type="StandardMaterial3D" id="Mat_StartRingPastel"]
+albedo_color = Color(0.55, 0.9, 0.72, 1)
 emission_enabled = true
-emission = Color(0.2, 0.95, 0.45, 1)
-emission_energy_multiplier = 2.5
+emission = Color(0.5, 0.88, 0.7, 1)
+emission_energy_multiplier = 1.8
 
 [sub_resource type="TorusMesh" id="TorusMesh_startring"]
-material = SubResource("Mat_StartRing")
+material = SubResource("Mat_StartRingPastel")
 inner_radius = 2.1
 outer_radius = 2.4
 
 [sub_resource type="BoxMesh" id="Mesh_Wall_14m"]
-material = SubResource("Mat_WallBody")
+material = SubResource("Mat_WallCream")
 size = Vector3(14, 3.6, 1)
 
 [sub_resource type="BoxMesh" id="Mesh_Trim_14m"]
-material = SubResource("Mat_WallTrim")
+material = SubResource("Mat_WallTrimMint")
 size = Vector3(14.05, 0.4, 1.05)
 
 [sub_resource type="BoxMesh" id="Mesh_Stripe_14m"]
-material = SubResource("Mat_NeonCyan")
+material = SubResource("Mat_WallStripePeach")
 size = Vector3(14.06, 0.08, 1.06)
 
 [sub_resource type="BoxShape3D" id="Shape_Wall_14m"]
 size = Vector3(14, 4, 1)
 
 [sub_resource type="BoxMesh" id="Mesh_Wall_8m"]
-material = SubResource("Mat_WallBody")
+material = SubResource("Mat_WallCream")
 size = Vector3(8, 3.6, 1)
 
 [sub_resource type="BoxMesh" id="Mesh_Trim_8m"]
-material = SubResource("Mat_WallTrim")
+material = SubResource("Mat_WallTrimMint")
 size = Vector3(8.05, 0.4, 1.05)
 
 [sub_resource type="BoxShape3D" id="Shape_Wall_8m"]
@@ -125,12 +126,12 @@ size = Vector3(8, 4, 1)
 script = ExtResource("1_controller")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Env_modern")
+environment = SubResource("Env_kawaii")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.766044, -0.492404, 0.413176, 0, 0.642788, 0.766044, -0.642788, -0.586824, 0.492404, 0, 20, 0)
-light_color = Color(1, 0.97, 0.92, 1)
-light_energy = 1.3
+light_color = Color(1, 0.96, 0.9, 1)
+light_energy = 1.25
 shadow_enabled = true
 directional_shadow_mode = 2
 directional_shadow_blend_splits = true
@@ -158,8 +159,8 @@ mesh = SubResource("TorusMesh_startring")
 
 [node name="StartLight" type="OmniLight3D" parent="StartPad"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-light_color = Color(0.2, 0.95, 0.45, 1)
-light_energy = 2.2
+light_color = Color(0.55, 0.9, 0.72, 1)
+light_energy = 2.0
 omni_range = 5.5
 
 [node name="MazeWalls" type="Node3D" parent="."]
@@ -288,27 +289,27 @@ shape = SubResource("Shape_Wall_8m")
 
 [node name="Beacon_Start" parent="Props/Beacons" instance=ExtResource("7_beacon")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -18)
-beacon_color = Color(0.2, 0.95, 0.45, 1)
+beacon_color = Color(0.55, 0.9, 0.72, 1)
 
 [node name="Beacon_Hall" parent="Props/Beacons" instance=ExtResource("7_beacon")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -12)
-beacon_color = Color(0, 0.9, 1, 1)
+beacon_color = Color(0.65, 0.82, 0.98, 1)
 
 [node name="Beacon_KeyRoom" parent="Props/Beacons" instance=ExtResource("7_beacon")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -22)
-beacon_color = Color(0.7, 0.35, 1, 1)
+beacon_color = Color(1, 0.85, 0.45, 1)
 
 [node name="Beacon_GateL" parent="Props/Beacons" instance=ExtResource("7_beacon")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, 9.5)
-beacon_color = Color(1, 0.55, 0.1, 1)
+beacon_color = Color(1, 0.65, 0.68, 1)
 
 [node name="Beacon_GateR" parent="Props/Beacons" instance=ExtResource("7_beacon")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 9.5)
-beacon_color = Color(1, 0.55, 0.1, 1)
+beacon_color = Color(1, 0.65, 0.68, 1)
 
 [node name="Beacon_Goal" parent="Props/Beacons" instance=ExtResource("7_beacon")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24)
-beacon_color = Color(1, 0.2, 0.4, 1)
+beacon_color = Color(1, 0.85, 0.5, 1)
 
 [node name="Arches" type="Node3D" parent="Props"]
 
@@ -330,7 +331,7 @@ transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 
 transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -23, 0, -13.5)
 
 [node name="Crate_StartStacked" parent="Props/Crates" instance=ExtResource("8_crate")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.5, 1.2, -14.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.5, 1.15, -14.2)
 
 [node name="Crate_KeyRoom1" parent="Props/Crates" instance=ExtResource("8_crate")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 22, 0, -15)
@@ -370,6 +371,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 2)
 
 [node name="Platform_West2" parent="Props/Platforms" instance=ExtResource("12_platform")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.4, 8)
+
+[node name="Foliage" type="Node3D" parent="Props"]
+
+[node name="Bush_Start" parent="Props/Foliage" instance=ExtResource("13_bush")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0, -21)
+
+[node name="Bush_Corridor1" parent="Props/Foliage" instance=ExtResource("13_bush")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -15, 0, -8)
+
+[node name="Bush_KeyRoom" parent="Props/Foliage" instance=ExtResource("13_bush")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 15, 0, -16)
+
+[node name="Bush_Gate" parent="Props/Foliage" instance=ExtResource("13_bush")]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, -2, 0, 9.5)
+
+[node name="Flower_Start1" parent="Props/Foliage" instance=ExtResource("14_flower")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 0, -19.5)
+
+[node name="Flower_Start2" parent="Props/Foliage" instance=ExtResource("14_flower")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -19.5, 0, -21)
+
+[node name="Flower_KeyRoom" parent="Props/Foliage" instance=ExtResource("14_flower")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 17, 0, -19)
+
+[node name="Flower_Goal" parent="Props/Foliage" instance=ExtResource("14_flower")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 22)
 
 [node name="Interactables" type="Node3D" parent="."]
 

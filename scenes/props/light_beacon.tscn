@@ -2,30 +2,30 @@
 
 [ext_resource type="Script" path="res://scripts/props/light_beacon.gd" id="1_beacon"]
 
-[sub_resource type="StandardMaterial3D" id="Mat_Pillar"]
-albedo_color = Color(0.18, 0.2, 0.24, 1)
-metallic = 0.6
-roughness = 0.35
+[sub_resource type="StandardMaterial3D" id="Mat_PillarWood"]
+albedo_color = Color(0.92, 0.86, 0.78, 1)
+roughness = 0.65
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_pillar"]
-material = SubResource("Mat_Pillar")
-top_radius = 0.18
-bottom_radius = 0.28
-height = 2.4
+material = SubResource("Mat_PillarWood")
+top_radius = 0.16
+bottom_radius = 0.26
+height = 2.2
 
-[sub_resource type="StandardMaterial3D" id="Mat_BulbInit"]
-albedo_color = Color(0, 0.9, 1, 1)
+[sub_resource type="StandardMaterial3D" id="Mat_CapMushroom"]
+albedo_color = Color(1, 0.75, 0.82, 1)
+roughness = 0.35
 emission_enabled = true
-emission = Color(0, 0.9, 1, 1)
-emission_energy_multiplier = 2.5
+emission = Color(1, 0.7, 0.8, 1)
+emission_energy_multiplier = 1.8
 
-[sub_resource type="SphereMesh" id="SphereMesh_bulb"]
-material = SubResource("Mat_BulbInit")
-radius = 0.22
-height = 0.44
+[sub_resource type="SphereMesh" id="SphereMesh_cap"]
+material = SubResource("Mat_CapMushroom")
+radius = 0.42
+height = 0.45
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_col"]
-height = 2.4
+height = 2.2
 radius = 0.35
 
 [node name="LightBeacon" type="StaticBody3D"]
@@ -34,19 +34,19 @@ collision_mask = 0
 script = ExtResource("1_beacon")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 shape = SubResource("CylinderShape3D_col")
 
 [node name="Pillar" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 mesh = SubResource("CylinderMesh_pillar")
 
 [node name="Bulb" type="MeshInstance3D" parent="Pillar"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
-mesh = SubResource("SphereMesh_bulb")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+mesh = SubResource("SphereMesh_cap")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
-light_color = Color(0, 0.9, 1, 1)
-light_energy = 2.2
-omni_range = 7.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+light_color = Color(1, 0.75, 0.85, 1)
+light_energy = 2.0
+omni_range = 6.5
