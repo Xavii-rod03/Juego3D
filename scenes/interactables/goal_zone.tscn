@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b6k4v9x1n3q7m"]
+[gd_scene load_steps=10 format=3 uid="uid://b6k4v9x1n3q7m"]
 
 [ext_resource type="Script" path="res://scripts/interactables/goal_zone.gd" id="1_goal"]
 
@@ -17,15 +17,32 @@ bottom_radius = 2.6
 height = 0.2
 
 [sub_resource type="StandardMaterial3D" id="Mat_GoalRingPastel"]
-albedo_color = Color(0.85, 0.72, 0.40, 1)
+albedo_color = Color(0.45, 0.78, 0.60, 1)
 emission_enabled = true
-emission = Color(0.85, 0.70, 0.38, 1)
+emission = Color(0.45, 0.75, 0.58, 1)
 emission_energy_multiplier = 0.45
 
 [sub_resource type="TorusMesh" id="TorusMesh_ring"]
 material = SubResource("Mat_GoalRingPastel")
 inner_radius = 2.0
 outer_radius = 2.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_GoalBeam"]
+transparency = 1
+blend_mode = 0
+shading_mode = 0
+albedo_color = Color(0.45, 0.85, 0.65, 0.28)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_goalbeam"]
+material = SubResource("Mat_GoalBeam")
+top_radius = 0.5
+bottom_radius = 0.7
+height = 28.0
+
+[sub_resource type="TorusMesh" id="TorusMesh_goalring"]
+material = SubResource("Mat_GoalBeam")
+inner_radius = 1.4
+outer_radius = 1.8
 
 [node name="GoalZone" type="Area3D"]
 collision_layer = 4
@@ -46,6 +63,14 @@ mesh = SubResource("TorusMesh_ring")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-light_color = Color(0.92, 0.78, 0.45, 1)
+light_color = Color(0.55, 0.85, 0.68, 1)
 light_energy = 0.8
 omni_range = 4.5
+
+[node name="SkyBeam" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14, 0)
+mesh = SubResource("CylinderMesh_goalbeam")
+
+[node name="SkyRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+mesh = SubResource("TorusMesh_goalring")
