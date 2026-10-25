@@ -86,13 +86,13 @@ func _update_objective_guide() -> void:
 			var dist = int(Vector2(to_key.x, to_key.z).length())
 			var dir_str = _get_direction_arrow(to_key)
 			if dist <= 4:
-				objective_label.text = "Misión: ¡Estrella Dorada aquí! ⭐ Tómala"
+				objective_label.text = "Objetivo: ¡Llave de Acceso aquí! Tómala"
 				objective_label.add_theme_color_override("font_color", Color(0.95, 0.82, 0.35))
 			else:
-				objective_label.text = "Misión: Estrella de Acceso ⭐ (a %dm %s)" % [dist, dir_str]
+				objective_label.text = "Objetivo: Llave de Acceso (a %dm al %s)" % [dist, dir_str]
 				objective_label.add_theme_color_override("font_color", Color(0.85, 0.65, 0.40))
 		else:
-			objective_label.text = "Misión: Sigue el haz de luz hacia la Estrella ⭐"
+			objective_label.text = "Objetivo: Sigue la columna de luz hacia la Llave"
 	else:
 		if not is_instance_valid(goal_zone):
 			_find_targets()
@@ -101,10 +101,10 @@ func _update_objective_guide() -> void:
 			var dist = int(Vector2(to_goal.x, to_goal.z).length())
 			var dir_str = _get_direction_arrow(to_goal)
 			if dist <= 4:
-				objective_label.text = "¡Llegaste a la Meta! 🌸 ¡Cruza el círculo!"
+				objective_label.text = "¡Llegaste a la Meta! Cruza el círculo para finalizar"
 				objective_label.add_theme_color_override("font_color", Color(0.40, 0.85, 0.60))
 			else:
-				objective_label.text = "¡Compuerta abierta! Meta al Sur (a %dm %s)" % [dist, dir_str]
+				objective_label.text = "Compuerta abierta. Meta al Sur (a %dm al %s)" % [dist, dir_str]
 				objective_label.add_theme_color_override("font_color", Color(0.35, 0.75, 0.55))
 
 func _get_direction_arrow(diff: Vector3) -> String:
@@ -115,21 +115,21 @@ func _get_direction_arrow(diff: Vector3) -> String:
 		deg += 360.0
 	
 	if deg >= 337.5 or deg < 22.5:
-		return "Norte ⬆"
+		return "Norte"
 	elif deg >= 22.5 and deg < 67.5:
-		return "Noreste ↗"
+		return "Noreste"
 	elif deg >= 67.5 and deg < 112.5:
-		return "Este ➡"
+		return "Este"
 	elif deg >= 112.5 and deg < 157.5:
-		return "Sureste ↘"
+		return "Sureste"
 	elif deg >= 157.5 and deg < 202.5:
-		return "Sur ⬇"
+		return "Sur"
 	elif deg >= 202.5 and deg < 247.5:
-		return "Suroeste ↙"
+		return "Suroeste"
 	elif deg >= 247.5 and deg < 292.5:
-		return "Oeste ⬅"
+		return "Oeste"
 	else:
-		return "Noroeste ↖"
+		return "Noroeste"
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -166,7 +166,7 @@ func _update_fps_limit_display() -> void:
 
 func set_key_collected() -> void:
 	has_key = true
-	key_status_label.text = "[ ✅ OBTENIDA ]"
+	key_status_label.text = "[ OBTENIDA ]"
 	key_status_label.add_theme_color_override("font_color", Color(0.35, 0.75, 0.55))
 	objective_label.text = "OBJETIVO: ¡Compuerta abierta! Dirígete a la Zona de Salida."
 	objective_label.add_theme_color_override("font_color", Color(0.35, 0.75, 0.55))

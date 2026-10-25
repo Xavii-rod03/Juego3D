@@ -22,10 +22,10 @@ En el documento de planeación inicial (Proyecto 0), el juego se concibió como 
 ### Cambios y Concreción para esta Primera Entrega:
 1. **Interacción Central con Restricción Física:** La salida no es accesible de forma directa. El camino hacia la meta final está físicamente sellado por una **Gran Compuerta de Seguridad (`DoorGate`)** que divide transversalmente el laberinto.
 2. **Bucle de Recorrido Concreto y Verificable:**
-   $$\text{Inicio (Spawn)} \longrightarrow \text{Exploración del Laberinto} \longrightarrow \text{Altar de la Estrella Dorada} \longrightarrow \text{Desbloqueo de Compuerta} \longrightarrow \text{Llegada a Meta y Victoria}$$
+   $$\text{Inicio (Spawn)} \longrightarrow \text{Exploración del Laberinto} \longrightarrow \text{Altar de la Llave de Acceso} \longrightarrow \text{Desbloqueo de Compuerta} \longrightarrow \text{Llegada a Meta y Victoria}$$
 3. **Respuesta Inmediata y Multi-canal:**
-   - **En el HUD:** El sistema de brújula indica en tiempo real la distancia y el rumbo cardinal hacia la estrella (`a 45m Noreste ↗`). Al recogerla, cambia a verde (`[ ✅ OBTENIDA ]`) y redirige automáticamente hacia la compuerta sur.
-   - **En el Mundo 3D:** La estrella se desvanece emitiendo sonido y partículas; la compuerta física desciende suavemente ($3.5\text{ m}$ bajo el suelo), su indicador cambia de rosa a menta y desactiva su cuerpo de colisión (`CollisionShape3D.disabled = true`).
+   - **En el HUD:** El sistema de brújula indica en tiempo real la distancia y el rumbo cardinal hacia la llave (`a 45m al Noreste`). Al recogerla, cambia a verde (`[ OBTENIDA ]`) y redirige automáticamente hacia la compuerta sur.
+   - **En el Mundo 3D:** La llave se desvanece emitiendo sonido y partículas; la compuerta física desciende suavemente ($3.5\text{ m}$ bajo el suelo), su indicador cambia de rosa a menta y desactiva su cuerpo de colisión (`CollisionShape3D.disabled = true`).
 4. **Cierre Formal de la Demostración:** Al cruzar la plataforma de meta (`GoalZone`), el cronómetro se congela, se libera el cursor del ratón y se despliega un panel modal de *"¡NIVEL COMPLETADO!"* con la opción de reiniciar instantáneamente el recorrido presionando la tecla **R**.
 
 ---
@@ -116,7 +116,7 @@ Se realizaron pruebas de juego presenciales con usuarios externos para evaluar l
 * **Problema 2 Observado (Desorientación en el Laberinto):** Tras ampliar el laberinto a $90\text{ m} \times 90\text{ m}$, los muros de $3.8\text{ m}$ impedían ver la estrella desde pasillos alejados, provocando que los jugadores se desorientaran sin saber hacia dónde avanzar.
   * **Corrección Aplicada:**
     1. Se incorporó una **Columna de Luz Celestial (*Sky Beam* de $28\text{ m}$)** sobre la estrella, visible por encima de cualquier muro desde cualquier punto del mapa.
-    2. Se programó en el HUD una **Brújula Dinámica con Distancia en Tiempo Real** (ej.: `Misión: Estrella de Acceso ⭐ (a 42m Noreste ↗)`), facilitando la navegación sin frustración.
+    2. Se programó en el HUD una **Brújula Dinámica con Distancia en Tiempo Real** (ej.: `Objetivo: Llave de Acceso (a 42m al Noreste)`), facilitando la navegación sin frustración.
     3. Se ensanchó el corredor de entrada al santuario este a $12\text{ metros}$ y se colocó un sendero de flechas indicadoras en el suelo.
 
 ### 5.2. Medición Inicial de Rendimiento (Línea Base del Proyecto)
