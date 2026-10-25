@@ -1,9 +1,9 @@
 extends Node3D
 class_name LightBeacon
 
-@export var beacon_color: Color = Color(0.0, 0.9, 1.0)
-@export var light_energy: float = 2.2
-@export var light_range: float = 7.0
+@export var beacon_color: Color = Color(0.85, 0.75, 0.55)
+@export var light_energy: float = 0.75
+@export var light_range: float = 5.0
 
 @onready var bulb_mesh: MeshInstance3D = $Pillar/Bulb
 @onready var omni_light: OmniLight3D = $OmniLight3D
@@ -19,5 +19,5 @@ func _ready() -> void:
 		mat.albedo_color = beacon_color
 		mat.emission_enabled = true
 		mat.emission = beacon_color
-		mat.emission_energy_multiplier = 2.5
+		mat.emission_energy_multiplier = 0.45
 		bulb_mesh.material_override = mat

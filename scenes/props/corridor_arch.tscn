@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://b7v2k9n4m1x3q"]
 
 [sub_resource type="StandardMaterial3D" id="Mat_ArchWood"]
-albedo_color = Color(0.94, 0.90, 0.84, 1)
-roughness = 0.6
+albedo_color = Color(0.72, 0.64, 0.54, 1)
+roughness = 0.8
 
 [sub_resource type="CylinderMesh" id="Mesh_ArchPost"]
 material = SubResource("Mat_ArchWood")
@@ -15,11 +15,11 @@ material = SubResource("Mat_ArchWood")
 size = Vector3(5.6, 0.45, 0.6)
 
 [sub_resource type="StandardMaterial3D" id="Mat_PastelRibbon"]
-albedo_color = Color(1, 0.78, 0.84, 1)
-roughness = 0.4
+albedo_color = Color(0.85, 0.65, 0.58, 1)
+roughness = 0.6
 emission_enabled = true
-emission = Color(1, 0.75, 0.82, 1)
-emission_energy_multiplier = 1.0
+emission = Color(0.85, 0.65, 0.58, 1)
+emission_energy_multiplier = 0.25
 
 [sub_resource type="BoxMesh" id="Mesh_NeonUnder"]
 material = SubResource("Mat_PastelRibbon")

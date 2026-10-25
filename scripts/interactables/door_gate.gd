@@ -25,16 +25,16 @@ func _ready() -> void:
 	target_y = initial_y
 	
 	mat_locked = StandardMaterial3D.new()
-	mat_locked.albedo_color = Color(1.0, 0.5, 0.62) # Rosa/Coral pastel tierno
+	mat_locked.albedo_color = Color(0.85, 0.45, 0.50) # Terracota rosado suave
 	mat_locked.emission_enabled = true
-	mat_locked.emission = Color(1.0, 0.48, 0.6)
-	mat_locked.emission_energy_multiplier = 1.8
+	mat_locked.emission = Color(0.85, 0.45, 0.50)
+	mat_locked.emission_energy_multiplier = 0.4
 	
 	mat_unlocked = StandardMaterial3D.new()
-	mat_unlocked.albedo_color = Color(0.45, 0.92, 0.72) # Menta pastel
+	mat_unlocked.albedo_color = Color(0.40, 0.75, 0.58) # Menta suave mate
 	mat_unlocked.emission_enabled = true
-	mat_unlocked.emission = Color(0.45, 0.92, 0.72)
-	mat_unlocked.emission_energy_multiplier = 2.0
+	mat_unlocked.emission = Color(0.40, 0.75, 0.58)
+	mat_unlocked.emission_energy_multiplier = 0.4
 	
 	_update_visuals()
 
