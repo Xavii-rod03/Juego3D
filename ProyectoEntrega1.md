@@ -19,7 +19,7 @@ En Proyecto 0 propusimos una exploracion basica en un entorno estatico sin objet
 ---
 
 ### 2. Escena, controlador, camara y colisiones
-Reutilizamos las tecnicas practicadas en la Tarea 1 organizando el proyecto en escenas modulares dentro de `res://scenes/` (`level.tscn`, `player.tscn`, `hud.tscn`, `interactables/` y `props/`):
+El proyecto se estructura en escenas modulares independientes dentro de `res://scenes/` (`level.tscn`, `player.tscn`, `hud.tscn`, `interactables/` y `props/`):
 - **Entorno e iluminacion:** Configuramos una luz de sol (`DirectionalLight3D`) con sombras suaves y cielo diurno. El suelo utiliza un shader de losas verde salvia mate con baja reflectividad especular para no cansar la vista.
 - **Muros del laberinto (90x90m):** Muros de 3.8m con `StaticBody3D` y colisiones de caja (`BoxShape3D`), delimitando pasillos amplios de 5 a 12 metros de ancho.
 - **Controlador (`CharacterBody3D`):** El movimiento en el plano XZ se calcula relativo a la orientacion de la camara. La gravedad escala con `delta` en `_physics_process` y el desplazamiento se resuelve con `move_and_slide()` sin duplicar el delta. Incluye maquina de estados (IDLE, WALK, JUMP).
@@ -37,13 +37,13 @@ La mecanica de interaccion conecta los elementos del juego mediante el sistema d
 ---
 
 ### 4. Justificacion de la organizacion de datos (POO vs. Datos)
-En la Tarea 2 demostramos con un benchmark que el Diseno Orientado a Datos (DOD) con memoria contigua (`PackedVector3Array`) es 4.4 veces mas rapido que la POO al mover 1,000 entidades simultaneas por el uso eficiente de las lineas de memoria cache.
+Al analizar la arquitectura del motor, el Diseno Orientado a Datos (DOD) con memoria contigua (como `PackedVector3Array`) resulta notablemente superior cuando se manejan miles de entidades simultaneas, debido al aprovechamiento directo de las lineas de cache del procesador y a evitar la indireccion de memoria por punteros.
 
-Para esta Primera Entrega decidimos usar **Programacion Orientada a Objetos (POO)** basada en nodos y senales:
-1. **Pocas entidades en escena:** Solo interactuan 4 objetos principales (jugador, llave, compuerta y meta). El tiempo de procesamiento de CPU es minimo ($< 0.05\text{ ms}$), por lo que la POO no afecta el rendimiento.
-2. **Claridad de diseno:** Cada nodo encapsula su propia logica y representacion visual, facilitando el desarrollo y mantenimiento del proyecto.
+Sin embargo, para esta Primera Entrega decidimos utilizar **Programacion Orientada a Objetos (POO)** basada en nodos y senales:
+1. **Escala reducida:** En este momento solo interactuan 4 objetos clave (jugador, llave, compuerta y meta). Con tan pocos elementos, el coste de procesamiento de CPU es minimo ($< 0.05\text{ ms}$), por lo que no compromete la tasa de cuadros ni genera cuellos de botella.
+2. **Claridad y modularidad:** Cada nodo encapsula su propia logica y representacion visual, permitiendo un desarrollo limpio y facil de mantener en equipo.
 
-*Plan para entregas futuras:* Cuando se requiera incorporar a los 15 agentes autonomos y multitudes, implementaremos una arquitectura hibrida: POO para el jugador y la interfaz, y orientacion a datos o servidores de bajo nivel para la navegacion masiva.
+*Plan para fases posteriores:* Cuando el juego requiera incorporar a los 15 agentes autonomos y multitudes de entidades, implementaremos una arquitectura hibrida: POO para el jugador y la interfaz, y orientacion a datos o servidores de bajo nivel para la navegacion masiva.
 
 ---
 
