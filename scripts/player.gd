@@ -76,12 +76,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		var current_pitch = camera_pivot.rotation_degrees.x
 		var new_pitch = clamp(current_pitch + rad_to_deg(pitch_change), min_pitch, max_pitch)
 		camera_pivot.rotation_degrees.x = new_pitch
-		
-	# Acceso directo al Benchmark de Tarea 2 con tecla B o F2
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_B or event.keycode == KEY_F2:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			get_tree().change_scene_to_file("res://scenes/benchmark/benchmark_main.tscn")
 
 
 ## =============================================================================

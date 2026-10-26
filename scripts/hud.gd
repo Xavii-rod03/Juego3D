@@ -140,9 +140,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			_update_fps_limit_display()
 		elif event.keycode == KEY_R:
 			get_tree().reload_current_scene()
-		elif event.keycode == KEY_B or event.keycode == KEY_F2:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			get_tree().change_scene_to_file("res://scenes/benchmark/benchmark_main.tscn")
 
 func _on_player_state_changed(_old_state: String, new_state: String) -> void:
 	_update_state_display(new_state)
