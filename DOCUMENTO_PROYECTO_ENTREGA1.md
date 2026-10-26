@@ -1,157 +1,173 @@
-# PROYECTO: PRIMERA ENTREGA - ESCENA Y MECÁNICA INICIAL
+# PROYECTO: PRIMERA ENTREGA - ESCENA Y MECANICA INICIAL
 ## LABERINTO 3D
 
-**Asignatura:** Seminario de Sistemas de Información II (Trimestre 26-O)  
-**Modalidad:** Trabajo en Equipo (3 integrantes)  
-**Integrantes:**
-- Daniela Campos Martínez
-- Karina Ivonne Bazán Rojas
-- Francisco Javier García Rosados  
+**Materia:** Seminario de Sistemas de Informacion II  
+**Trimestre:** 26-O  
+**Modalidad:** Trabajo en Equipo  
 
-**Repositorio GitHub:** [https://github.com/Xavii-rod03/Juego3D.git](https://github.com/Xavii-rod03/Juego3D.git)  
-**Enlace al Video Demostrativo (1 a 2 min):** `[INSERTAR ENLACE DE DRIVE O YOUTUBE AQUÍ TRAS GRABAR]`  
-**Motor y Versión:** Godot Engine 4.x (Forward+ / Direct3D 12, Jolt Physics)  
-**Sistema Operativo:** Windows 10/11  
+**Integrantes del Equipo:**
+- Daniela Campos Martinez
+- Karina Ivonne Bazan Rojas
+- Francisco Javier Garcia Rosados  
 
----
-
-## 1. CONCEPTO ACTUALIZADO Y CAMBIOS FRENTE A PROYECTO 0
-
-En el documento de planeación inicial (Proyecto 0), el juego se concibió como una exploración simple en tercera persona dentro de un entorno estático sin restricciones verificables.
-
-### Cambios y Concreción para esta Primera Entrega:
-1. **Interacción Central con Restricción Física:** La salida no es accesible de forma directa. El camino hacia la meta final está físicamente sellado por una **Gran Compuerta de Seguridad (`DoorGate`)** que divide transversalmente el laberinto.
-2. **Bucle de Recorrido Concreto y Verificable:**
-   $$\text{Inicio (Spawn)} \longrightarrow \text{Exploración del Laberinto} \longrightarrow \text{Altar de la Llave de Acceso} \longrightarrow \text{Desbloqueo de Compuerta} \longrightarrow \text{Llegada a Meta y Victoria}$$
-3. **Respuesta Inmediata y Multi-canal:**
-   - **En el HUD:** El sistema de brújula indica en tiempo real la distancia y el rumbo cardinal hacia la llave (`a 45m al Noreste`). Al recogerla, cambia a verde (`[ OBTENIDA ]`) y redirige automáticamente hacia la compuerta sur.
-   - **En el Mundo 3D:** La llave se desvanece emitiendo sonido y partículas; la compuerta física desciende suavemente ($3.5\text{ m}$ bajo el suelo), su indicador cambia de rosa a menta y desactiva su cuerpo de colisión (`CollisionShape3D.disabled = true`).
-4. **Cierre Formal de la Demostración:** Al cruzar la plataforma de meta (`GoalZone`), el cronómetro se congela, se libera el cursor del ratón y se despliega un panel modal de *"¡NIVEL COMPLETADO!"* con la opción de reiniciar instantáneamente el recorrido presionando la tecla **R**.
+**Repositorio en GitHub:** [https://github.com/Xavii-rod03/Juego3D.git](https://github.com/Xavii-rod03/Juego3D.git)  
+**Carpeta con el Video de Demostracion:** [https://drive.google.com/drive/folders/1_pSartHef60XlG2sK8ziR8cuuNBJI3IX?usp=sharing](https://drive.google.com/drive/folders/1_pSartHef60XlG2sK8ziR8cuuNBJI3IX?usp=sharing)  
+**Motor de Desarrollo:** Godot Engine 4.x (Renderizador Forward+, Direct3D 12, Fisicas Jolt)  
+**Sistema Operativo:** Windows 10 / 11  
 
 ---
 
-## 2. ESCENA, CONTROLADOR, CÁMARA Y COLISIONES
+## 1. CONCEPTO ACTUALIZADO Y CAMBIOS RESPECTO A PROYECTO 0
 
-La escena principal editable está estructurada en `res://scenes/level.tscn` bajo un desacoplamiento estricto de responsabilidades:
+En la entrega de Proyecto 0 teniamos una idea muy general: queriamos hacer un laberinto en 3D en tercera persona donde el jugador simplemente buscara una salida caminando entre paredes.
+
+Para esta Primera Entrega aterrizamos el diseno del juego (GDD) y definimos un recorrido concreto, claro y con reglas bien delimitadas:
+
+1. **Agregamos un obstaculo obligatorio:** Ya no es posible correr directamente a la meta. El laberinto esta dividido por una **Compuerta de Seguridad** cerrada que bloquea fisicamente el paso hacia la salida.
+2. **Recorrido paso a paso del jugador:**
+   - El jugador aparece en la plataforma de inicio (Spawn) en la esquina noroeste.
+   - Explora los pasillos del laberinto hasta encontrar el altar del ala este donde esta la **Llave de Acceso** (representada por una estrella dorada elevada).
+   - Al tocar la llave, la compuerta se abre de forma automatica y desbloquea el camino al sur.
+   - El jugador camina hacia la zona sur y cruza la **Meta** para terminar la partida.
+3. **Respuestas visuales del juego:**
+   - La interfaz (HUD) le muestra al jugador hacia donde ir con una brujula y la distancia en metros en tiempo real.
+   - Al recoger la llave, la compuerta baja bajo el suelo, su indicador cambia de color y el HUD confirma que la llave fue obtenida.
+4. **Cierre de la demostracion:** Al llegar a la meta, el cronometro se detiene, aparece un panel que dice "NIVEL COMPLETADO" con el tiempo total registrado y se permite reiniciar la partida con la tecla R.
+
+---
+
+## 2. ESCENA, CONTROLADOR, CAMARA Y COLISIONES
+
+Para construir el juego reutilizamos las tecnicas que aprendimos y practicamos en la Tarea 1, separando el proyecto en escenas pequenas y faciles de editar:
 
 ```text
 res://scenes/
-├── level.tscn                     # Escena maestra: geometría 90x90m, iluminación y suelo
-├── player.tscn                    # Controlador CharacterBody3D y cámara orbital
-├── character_model.tscn           # Modelo estilizado con rig y animaciones in-place
+├── level.tscn                     # Escena principal con muros, suelo e iluminacion
+├── player.tscn                    # Personaje jugador con CharacterBody3D y camara
+├── character_model.tscn           # Modelo visual del personaje con animaciones
 ├── interactables/
-│   ├── key_item.tscn              # Estrella de acceso con haz de luz celestial (Sky Beam)
-│   ├── door_gate.tscn             # Compuerta mecánica con StaticBody3D móvil
-│   └── goal_zone.tscn             # Área de llegada con haz esmeralda y trigger de victoria
-├── props/                         # Elementos modulares: balizas, arcos, cajas, plataformas
-└── hud.tscn                       # Interfaz CanvasLayer con brújula, estado FSM y FPS
+│   ├── key_item.tscn              # Llave interactiva (Area3D) con columna de luz
+│   ├── door_gate.tscn             # Compuerta con cuerpo solido que se mueve
+│   └── goal_zone.tscn             # Plataforma de llegada que detecta la victoria
+├── props/                         # Objetos de apoyo: faros, arcos, cajas y plataformas
+└── hud.tscn                       # Interfaz de usuario con textos y tiempos
 ```
 
-### Características Técnicas Reutilizadas:
-- **Entorno e Iluminación Amigable a la Vista:**
-  - `WorldEnvironment` configurado con tonemapping ACES (`tonemap_exposure = 0.88`) y *glow* sutil (`0.15`), eliminando cualquier brillo excesivo o deslumbramiento molesto.
-  - Luz direccional (`DirectionalLight3D`) con ángulo de 45°, sombras suaves filtradas y cielo procedural diurno.
-- **Suelo y Laberinto Ampliado ($90\text{ m} \times 90\text{ m}$):**
-  - Suelo procedural en verde salvia mate (`#7B9473` y `#6E8766`) con rugosidad alta ($0.9$) y reflectividad mínima ($0.05$) para máxima comodidad visual.
-  - Muros de $3.8\text{ m}$ de altura construidos con piedra caliza cálida (`Mat_WallStone`), delimitando pasillos amplios de $5\text{ a }12\text{ metros}$ de ancho que evitan claustrofobia y problemas de cámara.
-- **Controlador Cinemático (`CharacterBody3D`):**
-  - Movimiento en el plano $XZ$ relativo a la dirección horizontal que enfoca la cámara.
-  - Físicas desacopladas en `_physics_process`: la gravedad escala con `delta`, mientras que `move_and_slide()` integra la velocidad internamente sin duplicar el delta.
-  - Máquina de Estados Finitos (FSM) con estados `IDLE`, `WALK` y `JUMP`, sincronizada con animaciones *in-place*.
-- **Cámara Orbital con `SpringArm3D`:**
-  - Brazo con colisión esférica de radio $0.2\text{ m}$ y longitud de $3.5\text{ m}$. Al aproximarse a paredes o girar en esquinas, la cámara se acorta fluidamente sin atravesar los muros.
+### Elementos tecnicos que implementamos:
+
+- **Entorno e iluminacion descansada:** Configuramos un `WorldEnvironment` con cielo procedural suave y una luz de sol (`DirectionalLight3D`) con sombras activadas. Ajustamos la exposicion de la camara y el brillo de los materiales para que los colores se vean agradables y no deslumbren ni cansen la vista al jugar.
+- **Geometria del laberinto (90m x 90m):** Disenamos un laberinto amplio con pasillos de entre 5 y 12 metros de ancho. Los muros son cuerpos estaticos (`StaticBody3D`) con colisiones de caja (`BoxShape3D`) de 3.8 metros de alto, lo que da buena sensacion de laberinto sin apretar la vista del jugador.
+- **Controlador del personaje (`CharacterBody3D`):**
+  - El movimiento se calcula en el plano XZ tomando como referencia hacia donde esta apuntando la camara, no las coordenadas globales del mundo.
+  - En la fisica (`_physics_process`) calculamos la gravedad multiplicada por `delta`, mientras que para movernos usamos `move_and_slide()`. Sabemos que `move_and_slide()` ya multiplica internamente el delta en Godot 4, por lo que no volvemos a multiplicarlo para evitar aplicar el tiempo dos veces.
+  - Incluimos una maquina de estados sencilla (IDLE, WALK, JUMP) que cambia la animacion segun si el personaje esta quieto, caminando o en el aire.
+- **Camara en tercera persona con `SpringArm3D`:** Colocamos la camara en un brazo elastico de 3.5 metros. Tiene configurada una esfera de colision para que, si el jugador camina pegado a una pared o gira en una esquina cerrada, la camara se acerque al personaje suavemente en lugar de traspasar los muros.
 
 ---
 
-## 3. INTERACCIÓN CENTRAL VERIFICABLE (LLAVE $\rightarrow$ COMPUERTA $\rightarrow$ META)
+## 3. INTERACCION CENTRAL VERIFICABLE
 
-La interacción central está implementada mediante el sistema de señales nativo de Godot, garantizando un flujo reactivo y sin acoplamiento rígido entre clases:
+La mecanica central consiste en: **Recoger la Llave -> Desbloquear la Compuerta -> Llegar a la Meta**. Para que el codigo fuera limpio, conectamos estos elementos usando el sistema de **Senales** de Godot:
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor Jugador
-    participant KeyItem as Estrella Dorada (Area3D)
-    participant Level as LevelController
-    participant DoorGate as Compuerta (StaticBody3D)
-    participant HUD as HUD (CanvasLayer)
-    participant GoalZone as Zona Meta (Area3D)
+    participant Llave as Llave de Acceso (Area3D)
+    participant Nivel as LevelController
+    participant Compuerta as Compuerta (StaticBody3D)
+    participant HUD as Interfaz HUD
+    participant Meta as Zona de Meta (Area3D)
 
-    Jugador->>KeyItem: Contacto físico con el Area3D
-    KeyItem->>Level: Emite señal key_collected
-    Level->>HUD: set_key_collected() (Actualiza objetivo a verde)
-    Level->>DoorGate: open_door() (Desciende compuerta, desactiva colisión)
-    DoorGate-->>Jugador: Paso libre hacia el santuario sur
-    Jugador->>GoalZone: Cruza plataforma de llegada
-    GoalZone->>Level: Emite señal goal_reached
-    Level->>HUD: show_victory() (Detiene tiempo y despliega modal)
+    Jugador->>Llave: Entra al area de contacto
+    Llave->>Nivel: Emite senal key_collected
+    Nivel->>HUD: set_key_collected() (Cambia objetivo a completado)
+    Nivel->>Compuerta: open_door() (Baja la compuerta y apaga colision)
+    Compuerta-->>Jugador: Camino despejado hacia la salida
+    Jugador->>Meta: Pisa la plataforma de llegada
+    Meta->>Nivel: Emite senal goal_reached
+    Nivel->>HUD: show_victory() (Detiene tiempo y muestra panel final)
 ```
 
-1. **Recolección (`KeyItem`):** Capa de colisión 4 que detecta al jugador (capa 2). Emite la señal `key_collected`, registra en consola y se destruye limpiamente con `queue_free()`.
-2. **Mecanismo de Desbloqueo (`DoorGate`):** Al recibir la señal, el nodo interpola la altura del obstáculo físico hacia abajo ($Y - 3.5\text{ m}$) a velocidad constante, conmuta el material indicador a verde menta y desactiva el `CollisionShape3D`.
-3. **Trigger de Victoria (`GoalZone`):** Al detectar la entrada del jugador tras cruzar la compuerta, notifica al `LevelController` para detener el cronómetro y presentar la pantalla de victoria.
+### Responsabilidad de cada script:
+
+1. **`key_item.gd`:** Usa un `Area3D` con monitoreo de colisiones. Cuando detecta que el jugador entra en su volumen, emite la senal `key_collected`, avisa en la consola y se elimina de la escena con `queue_free()`.
+2. **`door_gate.gd`:** Controla la compuerta fisica (`StaticBody3D`). Al recibir la orden de abrirse, mueve su posicion vertical 3.5 metros hacia abajo de forma animada, cambia su luz de aviso de rosa a verde menta y desactiva su colision (`CollisionShape3D.disabled = true`) para que el jugador pueda pasar.
+3. **`goal_zone.gd`:** Es otra `Area3D` ubicada al final del camino sur. Cuando el jugador la pisa, emite la senal `goal_reached`.
+4. **`level_controller.gd`:** Es el nodo principal del nivel. Conecta las senales entre la llave, la compuerta, la meta y la interfaz, coordinando que todo pase en el orden correcto sin que los objetos dependan directamente entre si.
+5. **`hud.gd`:** Se encarga de mostrar la informacion en pantalla: cuadros por segundo (FPS), velocidad actual, estado de la maquina de estados (IDLE, WALK, JUMP), cronometro y una brujula con la distancia hacia el objetivo actual.
 
 ---
 
-## 4. ORGANIZACIÓN DEL CÓDIGO Y DECISIÓN TÉCNICA (OO VS. DATOS)
+## 4. JUSTIFICACION DE LA ORGANIZACION DE DATOS (POO VS. DATOS)
 
-En la Tarea 2 se demostró mediante benchmark experimental que el Diseño Orientado a Datos (DOD) con memoria contigua (`PackedVector3Array`) es **4.4 veces más rápido** que la POO tradicional cuando se simulan 1 000 entidades móviles en Godot 4.x.
+En la Tarea 2 realizamos un laboratorio y benchmark comparando la Programacion Orientada a Objetos (POO) tradicional con el Diseno Orientado a Datos (DOD) simulando 1,000 entidades en Godot 4.
 
-### Justificación de la Decisión de Arquitectura:
-Para esta primera entrega del proyecto, **se decidió utilizar Programación Orientada a Objetos basada en Nodos y Señales de Godot** por las siguientes razones técnicas:
+En ese ensayo comprobamos que cuando tenemos miles de objetos moviendose al mismo tiempo, la orientacion a datos con arreglos contiguos en memoria (`PackedVector3Array`) es **4.4 veces mas rapida** que la orientacion a objetos, debido a que aprovecha mejor las lineas de cache del procesador y evita los saltos de memoria por punteros.
 
-1. **Escala Reducida de Entidades ($N < 10$):** En esta etapa del juego interactúan 1 jugador, 1 estrella, 1 puerta y 1 meta. Con este volumen, el coste de indirección por punteros y despacho dinámico es imperceptible (inferior a $0.05\text{ ms}$ de CPU) y no compromete el presupuesto de cuadro.
-2. **Modularidad, Encapsulamiento y Mantenimiento:** La POO en Godot permite que cada elemento (`KeyItem`, `DoorGate`, `HUD`) encapsule su propia máquina de estados y geometrías, comunicándose exclusivamente por señales sin generar dependencias cruzadas.
-3. **Estrategia Escalable para Entregas Posteriores:** En las fases futuras, donde se exigirá la incorporación de **15 agentes autónomos** y navegación de multitudes, se implementará la arquitectura híbrida analizada en Tarea 2: se mantendrá la POO para la interfaz y el jugador principal, mientras que la simulación masiva y actualización posicional de agentes se delegará a estructuras de datos orientadas a arrays o servidores de bajo nivel (`PhysicsServer3D` / `NavigationServer3D`).
+### Decision tomada para esta Primera Entrega:
 
----
+Para esta entrega del juego decidimos trabajar con la **Programacion Orientada a Objetos basada en Nodos y Senales**, y justificamos esta decision por tres motivos principales:
 
-## 5. PRUEBA DE USUARIO (PLAYTEST), CORRECCIONES Y LÍNEA BASE
-
-### 5.1. Prueba con Usuario Ajeno al Equipo
-Se realizaron pruebas de juego presenciales con usuarios externos para evaluar la usabilidad, navegación y legibilidad de las mecánicas sin dar instrucciones orales:
-
-* **Problema 1 Observado (Iluminación y Fatiga Visual):** Los usuarios reportaron que el suelo blanco y los materiales con alta emisión producían deslumbramiento y fatiga visual al jugar por más de 1 minuto.
-  * **Corrección Aplicada:** Se rediseñó el suelo con losas en tonos verde salvia mate (`#7B9473`), se ajustó la rugosidad a $0.9$ y se disminuyó la energía de las fuentes de luz a valores confortables ($0.75\text{ a }0.85$).
-* **Problema 2 Observado (Desorientación en el Laberinto):** Tras ampliar el laberinto a $90\text{ m} \times 90\text{ m}$, los muros de $3.8\text{ m}$ impedían ver la estrella desde pasillos alejados, provocando que los jugadores se desorientaran sin saber hacia dónde avanzar.
-  * **Corrección Aplicada:**
-    1. Se incorporó una **Columna de Luz Celestial (*Sky Beam* de $28\text{ m}$)** sobre la estrella, visible por encima de cualquier muro desde cualquier punto del mapa.
-    2. Se programó en el HUD una **Brújula Dinámica con Distancia en Tiempo Real** (ej.: `Objetivo: Llave de Acceso (a 42m al Noreste)`), facilitando la navegación sin frustración.
-    3. Se ensanchó el corredor de entrada al santuario este a $12\text{ metros}$ y se colocó un sendero de flechas indicadoras en el suelo.
-
-### 5.2. Medición Inicial de Rendimiento (Línea Base del Proyecto)
-Medido sobre PC estándar (Intel Core i5, 8 GB RAM, resolución $1152 \times 648$, Direct3D 12):
-- **Tasa de Cuadros:** 60 FPS estables y continuos (fijados por VSync).
-- **Tiempo de Fotograma:** $16.66\text{ ms}$ promedio (variación mínima $\pm 0.3\text{ ms}$).
-- **Uso de CPU en Proceso (`TIME_PROCESS`):** $0.42\text{ ms}$ promedio (margen libre del 97.4% de presupuesto de cuadro para futuras IAs).
-- **Consumo de Memoria RAM:** $\approx 88\text{ MB}$ en ejecución estable.
+1. **Muy baja cantidad de objetos en escena:** En esta entrega solo tenemos 4 entidades interactivas principales (1 jugador, 1 llave, 1 puerta y 1 meta). Con tan pocos objetos, el procesador tarda menos de 0.05 milisegundos en procesarlos; no existe ningun problema de rendimiento ni cuello de botella en la memoria.
+2. **Claridad y facilidad de desarrollo:** Trabajar con nodos y scripts individuales nos permite disenar cada pieza por separado (la puerta sabe como abrirse, la llave sabe como flotar y el HUD sabe como dibujar el texto). Esto hace que el proyecto sea facil de entender, modificar y corregir en equipo.
+3. **Plan para las siguientes entregas:** Sabemos que en las entregas futuras el profesor nos pedira anadir 15 o mas agentes autonomos con navegacion y multitudes. Es ahi donde aplicaremos lo aprendido en la Tarea 2: mantendremos la POO para la logica general del jugador y la interfaz, pero utilizaremos estructuras orientadas a datos o servidores de bajo nivel (`NavigationServer3D` y arrays de datos) para mover a los agentes sin perder rendimiento.
 
 ---
 
-## 6. CONTROLES Y GUÍA DE REPRODUCCIÓN
+## 5. PRUEBA CON OTRA PERSONA (PLAYTEST), CORRECCIONES Y RENDIMIENTO
 
-1. Abrir el proyecto en **Godot Engine 4.x**.
-2. Presionar **F5** (la escena principal configurada es `res://scenes/level.tscn`).
-3. **Controles:**
-   - **W, A, S, D:** Caminar relativo a la dirección de la cámara.
-   - **Ratón:** Giro libre de la cámara orbital en tercera persona.
-   - **ESPACIO:** Saltar.
-   - **ESCAPE:** Alternar captura y liberación del cursor del ratón.
-   - **R:** Reiniciar el recorrido en cualquier momento.
-   - **F1:** Alternar límites de tasa de cuadros (Ilimitado / 30 FPS / 60 FPS).
-   - **B / F2:** Acceso directo a la escena del benchmark de Tarea 2.
+### 5.1. Prueba de Usabilidad
+Le pedimos a una persona ajena al equipo que jugara el laberinto desde una copia limpia, sin darle ninguna explicacion oral previa, para observar que problemas se le presentaban:
+
+- **Problema 1 (Cansancio visual por brillo):** En la primera version usamos un suelo blanco muy claro y materiales con mucha emision. La persona comento que despues de dos minutos la pantalla brillaba demasiado y le cansaba la vista.
+  - **Correccion:** Cambiamos el suelo a losas en tono verde salvia mate, aumentamos la rugosidad a 0.9 para que no reflejara luz directa y bajamos la intensidad de las luces a niveles suaves y naturales.
+- **Problema 2 (Perderse en el laberinto):** Como el laberinto mide 90x90 metros y los muros miden 3.8 metros de alto, el jugador no sabia en que direccion estaba la llave y paso mucho tiempo dando vueltas en pasillos equivocados.
+  - **Correccion:**
+    1. Agregamos sobre la llave una **columna de luz vertical (Sky Beam)** de 28 metros de altura que se ve por encima de cualquier muro desde cualquier parte del mapa.
+    2. Modificamos el HUD para incluir una **brujula con distancia en tiempo real** (por ejemplo: `Objetivo: Llave de Acceso (a 42m al Noreste)`), de forma que el jugador siempre sabe hacia donde avanzar.
+    3. Abrimos una entrada amplia de 12 metros hacia el santuario de la llave y colocamos flechas doradas en el suelo del pasillo principal.
+
+### 5.2. Medicion Inicial de Rendimiento (Linea Base)
+Realizamos una medicion inicial del juego en una computadora de gama media (procesador Intel Core i5, 8 GB de memoria RAM, resolucion de 1152x648 con Direct3D 12):
+
+- **Tasa de fotogramas:** 60 FPS constantes y estables (con VSync activado).
+- **Tiempo de fotograma:** 16.6 milisegundos promedio.
+- **Tiempo de CPU en proceso (`TIME_PROCESS`):** 0.42 milisegundos.
+- **Consumo de memoria RAM:** Aproximadamente 88 MB durante la partida.
+
+Esta medicion nos deja un 97% de tiempo libre por cada fotograma, lo cual confirma que el juego base esta muy ligero y tenemos margen suficiente para anadir la navegacion de agentes en la proxima entrega.
+
+---
+
+## 6. CONTROLES Y GUIA DE EJECUCION
+
+Para probar el proyecto:
+1. Abrir la carpeta del proyecto en **Godot Engine 4.x**.
+2. Presionar **F5** para ejecutar la escena principal (`res://scenes/level.tscn`).
+3. **Controles del juego:**
+   - **W, A, S, D:** Mover al personaje en relacion a donde mira la camara.
+   - **Raton:** Mover la camara orbital en tercera persona.
+   - **Espacio:** Saltar.
+   - **Escape:** Liberar o capturar el cursor del raton.
+   - **R:** Reiniciar el recorrido desde el principio en cualquier momento.
+   - **F1:** Cambiar el limite de fotogramas (Sin limite / 30 FPS / 60 FPS).
+   - **B / F2:** Acceso directo a la escena del benchmark de 1,000 entidades de la Tarea 2.
 
 ---
 
 ## 7. APORTACIONES INDIVIDUALES DEL EQUIPO
 
-| Integrante | Rol Principal | Aportaciones Específicas en esta Entrega |
+| Integrante | Rol en el Proyecto | Aportaciones Concretas |
 | :--- | :--- | :--- |
-| **Daniela Campos Martínez** | Movimiento, Cámara y FSM | - Programación del controlador cinemático `CharacterBody3D` en `scripts/player.gd`.<br>- Configuración de la cámara orbital con `SpringArm3D` contra oclusiones de muros.<br>- Implementación de la FSM (Idle, Walk, Jump) y rotación suave hacia la dirección de avance. |
-| **Karina Ivonne Bazán Rojas** | Nivel, Entorno e Iluminación | - Diseño espacial y ensamblado del laberinto ampliado de $90\times 90\text{ m}$ en `scenes/level.tscn`.<br>- Shader procedural de losas de pradera y calibración de paleta mate anti-deslumbramiento.<br>- Configuración de la iluminación global, niebla sutil y arcos/balizas de referencia visual. |
-| **Francisco Javier García Rosados** | Mecánicas, HUD y Playtesting | - Implementación de la interacción verificable (`KeyItem`, `DoorGate`, `GoalZone`).<br>- Programación del HUD reactivo con brújula y cálculo dinámico de distancia en tiempo real.<br>- Realización del playtest con usuario externo, correcciones de navegación y redacción del reporte. |
+| **Daniela Campos Martinez** | Movimiento, Camara y FSM | - Programo el controlador del jugador en `scripts/player.gd` con calculo de movimiento en el plano XZ.<br>- Configuro el nodo `SpringArm3D` para que la camara no traspase paredes.<br>- Implemento la maquina de estados finitos (Idle, Walk, Jump) y la rotacion suave del modelo al caminar. |
+| **Karina Ivonne Bazan Rojas** | Escenario, Suelo e Iluminacion | - Diseno el laberinto de 90x90m en `scenes/level.tscn` organizando pasillos amplios y zonas de referencia.<br>- Configuro el shader del suelo con colores verde salvia mate para evitar el deslumbramiento visual.<br>- Ajusto la iluminacion de la escena, la niebla de distancia y la colocacion de arcos y faros guia. |
+| **Francisco Javier Garcia Rosados** | Mecanica, Interfaz y Playtesting | - Implemento la mecanica central de la llave, la compuerta y la meta usando senales en `level_controller.gd`.<br>- Programo la interfaz en `scripts/hud.gd` con la brujula de orientacion y medicion de distancia.<br>- Realizo la prueba con usuario externo, aplico las correcciones visuales/navegacion y redacto el documento. |
 
 ---
 
-## 8. CONCLUSIÓN
-La primera entrega cumple satisfactoriamente todos los criterios de aceptación pedagógicos y técnicos. Se dispone de una escena sólida, un controlador fluido con prevención de oclusiones de cámara, un laberinto ampliado con ayudas visuales efectivas y una interacción verificable que cierra de forma limpia la demostración. El proyecto queda técnicamente listo para recibir la inteligencia artificial y navegación de agentes en la siguiente etapa.
+## 8. CONCLUSION
+
+Esta primera entrega nos permitio comprobar con exito que los componentes basicos del juego funcionan de manera integrada: el personaje responde bien a los controles, la camara no se traba en los muros, el laberinto se recorre de forma comoda y la interaccion central tiene un inicio, desarrollo y final verificables. 
+
+Haber justificado la organizacion de datos con el conocimiento de la Tarea 2 nos da tranquilidad de que la estructura actual es la adecuada para esta fase y nos deja preparados para anadir los comportamientos inteligentes de los enemigos o agentes en la siguiente etapa del curso.
