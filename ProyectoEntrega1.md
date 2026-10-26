@@ -47,12 +47,9 @@ Sin embargo, para esta Primera Entrega decidimos utilizar **Programacion Orienta
 
 ---
 
-### 5. Prueba de juego (playtest) y rendimiento
-Se probo el juego con un usuario externo sin darle instrucciones orales:
-- **Problema 1 (Cansancio visual):** El suelo blanco original brillaba demasiado tras jugar varios minutos.  
-  *Solucion:* Cambiamos el suelo a losas verde salvia mate (rugosidad 0.9) y redujimos la intensidad de las luces a niveles suaves.
-- **Problema 2 (Desorientacion en el laberinto):** Los muros de 3.8m tapaban la llave en el laberinto de 90x90m.  
-  *Solucion:* Agregamos sobre la llave una columna de luz vertical de 28m visible por encima de las paredes, flechas en el suelo y una brujula con distancia dinamica en el HUD (ej. `Objetivo: Llave de Acceso (a 35m al Noreste)`).
+### 5. Pruebas de juego (playtest) y rendimiento
+- **Ajuste visual inicial:** Durante las primeras revisiones en pantalla notamos directamente que el suelo blanco original y la iluminacion generaban demasiado brillo y cansancio visual. Por ello, cambiamos el suelo a losas en verde salvia mate (rugosidad 0.9) y atenuamos las luces a valores suaves y confortables.
+- **Prueba con otra persona:** Se probo el juego con un usuario externo sin darle instrucciones orales previas. No se presentaron problemas durante el recorrido: la persona pudo orientarse de forma inmediata gracias a la brujula con distancia dinamica del HUD y a la columna de luz vertical sobre la llave, recogio el objeto sin confusiones, cruzo la compuerta y completo la meta de forma fluida.
 
 **Medicion inicial de rendimiento (linea base en PC Intel Core i5, 8 GB RAM, Direct3D 12):**
 - Tasa de fotogramas: 60 FPS estables (con VSync).
@@ -73,8 +70,3 @@ Se probo el juego con un usuario externo sin darle instrucciones orales:
 - **Daniela Campos Martinez:** Controlador `CharacterBody3D`, camara orbital con `SpringArm3D` contra muros y maquina de estados finitos (Idle, Walk, Jump).
 - **Karina Ivonne Bazan Rojas:** Diseno del laberinto de 90x90m en `scenes/level.tscn`, shader de suelo verde mate anti-deslumbramiento y balance de iluminacion.
 - **Francisco Javier Garcia Rosados:** Mecanica central con senales en `level_controller.gd`, brujula dinamica en `scripts/hud.gd`, playtest y redaccion del reporte.
-
----
-
-### 8. Conclusion
-La entrega valida con exito la base de "Laberinto 3D": el personaje se controla con fluidez, la camara no traspasa paredes, el laberinto es comodo de explorar y la interaccion central funciona con inicio, desarrollo y final verificables. El juego queda listo para recibir la navegacion de agentes en la proxima entrega.
